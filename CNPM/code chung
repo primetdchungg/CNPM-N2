@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lí Hệ Thống Bệnh Viện</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #263241;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background-color: #98b7d9;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .sidebar button:hover {
+            background-color: #98b7d9;
+        }
+        .submenu {
+            display: none;
+            padding-left: 10px;
+        }
+        .submenu button {
+            background-color: #98b7d9; /* Xanh đậm */
+        }
+        .submenu button:hover {
+            background-color: #98b7d9; /* Xanh đậm hơn */
+        }
+        .content-container {
+            margin-left: 220px;
+            padding: 20px;
+            flex: 1;
+        }
+        .content {
+            display: none;
+            font-size: 18px;
+        }
+        #login-form, #register-form, #change-password-form {
+            margin: auto;
+            text-align: center;
+            width: 300px;
+        }
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-form">
+        <h2>Đăng Nhập</h2>
+        <input type="text" id="login-username" placeholder="Tên đăng nhập">
+        <input type="password" id="login-password" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng Nhập</button>
+        <button onclick="showRegister()">Đăng Ký</button>
+        <button onclick="showChangePassword()">Đổi Mật Khẩu</button>
+    </div>
+    
+    <div id="register-form" style="display: none;">
+        <h2>Đăng Ký</h2>
+        <input type="text" id="register-username" placeholder="Tên đăng nhập">
+        <input type="password" id="register-password" placeholder="Mật khẩu">
+        <button onclick="register()">Đăng Ký</button>
+        <button onclick="showLogin()">Quay Lại</button>
+    </div>
+    
+    <div id="change-password-form" style="display: none;">
+        <h2>Đổi Mật Khẩu</h2>
+        <input type="text" id="change-username" placeholder="Tên đăng nhập">
+        <input type="password" id="old-password" placeholder="Mật khẩu cũ">
+        <input type="password" id="new-password" placeholder="Mật khẩu mới">
+        <button onclick="changePassword()">Đổi Mật Khẩu</button>
+        <button onclick="showLogin()">Quay Lại</button>
+    </div>
+    
+    <div id="app" style="display: none;">
+        <div class="sidebar">
+            <button onclick="showContent('home')">Trang Chủ</button>
+            <button onclick="toggleManageMenu()">Quản Lí</button>
+            <div id="manage-submenu" class="submenu">
+                <button onclick="showContent('patient-management')">Quản Lí Bệnh Nhân</button>
+                <button onclick="showContent('department-management')">Quản Lí Khoa Phòng & Giường Bệnh</button>
+                <button onclick="showContent('medical-management')">Quản Lí Khám Chữa Bệnh</button>
+                <button onclick="showContent('pharmacy-management')">Quản Lí Kho Thuốc</button>
+                <button onclick="showContent('staff-management')">Quản Lí Nhân Sự</button>
+                <button onclick="showContent('billing-report')">Thanh Toán & Báo Cáo</button>
+            </div>
+            <button onclick="showContent('contact')">Liên Hệ</button>
+            <button onclick="logout()">Đăng Xuất</button>
+        </div>
+        
+        <div class="content-container">
+            <div id="home" class="content" style="display: block;">Xin chào, đây là hệ thống quản lí bệnh viện của công ty phần mềm hàng đầu thế giới gồm 5 thành viên. Chúc quý khách có một trải nghiệm tuyệt vời !</div>
+            <div id="about" class="content">Giới thiệu về hệ thống quản lí bệnh viện.</div>
+            <div id="contact" class="content">Liên hệ chúng tôi qua email: primetdchungg@gmail.com</div>
+        </div>
+    </div>
+    
+    <script>
+        let users = { 'admin': '1234' };
+        
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            if (users[username] && users[username] === password) {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('app').style.display = 'flex';
+                document.querySelector('.sidebar').style.display = 'block';
+            } else {
+                alert('Sai tên đăng nhập hoặc mật khẩu!');
+            }
+        }
+        
+        function register() {
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            if (users[username]) {
+                alert('Tên đăng nhập đã tồn tại!');
+            } else {
+                users[username] = password;
+                alert('Đăng ký thành công!');
+                showLogin();
+            }
+        }
+        
+        function changePassword() {
+            const username = document.getElementById('change-username').value;
+            const oldPassword = document.getElementById('old-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            
+            if (users[username] && users[username] === oldPassword) {
+                users[username] = newPassword;
+                alert('Đổi mật khẩu thành công!');
+                showLogin();
+            } else {
+                alert('Tên đăng nhập hoặc mật khẩu cũ không đúng!');
+            }
+        }
+        
+        function logout() {
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+        
+        function showContent(id) {
+            document.querySelectorAll('.content').forEach(el => el.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+        
+        function toggleManageMenu() {
+            let menu = document.getElementById('manage-submenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function showRegister() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        }
+        
+        function showLogin() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('change-password-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+        
+        function showChangePassword() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('change-password-form').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
