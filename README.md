@@ -9,11 +9,11 @@ Hệ thống Quản lý Bệnh viện A là phần mềm hỗ trợ công tác q
 - Thông báo về các vấn đề phát sinh trong quá trình khám chữa bệnh, giúp người dùng dễ dàng tiếp cận thông tin.
 
 ## Danh sách thành viên
-- Trịnh Đức Chung - B22DCVT083
-- Nguyễn Quốc Việt - B22DCVT578
-- Võ Đức Anh - B22DCVT040
-- Nguyễn Quốc Tấn - B22DCVT457
-- Phạm Đình Bách - B22DCVT042
+- Trịnh Đức Chung 
+- Nguyễn Quốc Việt 
+- Võ Đức Anh 
+- Nguyễn Quốc Tấn 
+- Phạm Đình Bách 
 
 ---
 Hãy đóng góp ý kiến hoặc báo lỗi để chúng tôi có thể tiếp tục hoàn thiện phần mềm này!
