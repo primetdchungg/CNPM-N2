@@ -1,5 +1,5 @@
-# Hệ thống Quản lý Bệnh viện A
-
+<h1 align="center"> Team 2 - CNPM</h1>
+<h3 align="center">Hệ thống Quản lý Bệnh viện A. </h3>
 ## Giới thiệu
 Hệ thống Quản lý Bệnh viện A là phần mềm hỗ trợ công tác quản lý bệnh viện, giúp tối ưu hóa quy trình khám chữa bệnh và quản lý hành chính. Phần mềm cung cấp các tính năng quan trọng nhằm nâng cao hiệu quả hoạt động của bệnh viện, hỗ trợ các phòng ban và nhân viên y tế trong việc quản lý thông tin bệnh nhân, lịch khám, kho thuốc, hóa đơn và nhân sự.
 
