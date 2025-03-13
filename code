@@ -33,7 +33,17 @@
             text-align: left;
         }
         .sidebar button:hover {
-            background-color: #c1d2e4;
+            background-color: #98b7d9;
+        }
+        .submenu {
+            display: none;
+            padding-left: 10px;
+        }
+        .submenu button {
+            background-color: #98b7d9; /* Xanh đậm */
+        }
+        .submenu button:hover {
+            background-color: #98b7d9; /* Xanh đậm hơn */
         }
         .content-container {
             margin-left: 220px;
