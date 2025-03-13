@@ -3,121 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý 111 Khám Bệnh</title>
+    <title>Hệ Thống Quản Lý Khám Bệnh</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             padding: 20px;
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
+            display: flex;
+            gap: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 2;
+        }
+        .sidebar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 250px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
         .hidden { display: none; }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .step {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #e9ecef;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Hệ Thống Quản Lý Khám Bệnh</h1>
-    <p>Số thứ tự hiện tại đang được khám: <span id="currentQueue">1</span></p>
-    <button onclick="decreaseQueue()">⬅ Giảm</button>
-    <button onclick="increaseQueue()">Tăng ➡</button>
-    
-    <h2>Danh sách chờ</h2>
-    <ul id="waitingList"></ul>
-    
-    <div id="step-1">
-        <h2>1. Tra cứu bệnh nhân theo số thứ tự</h2>
-        <p>Số thứ tự của bạn: <span id="queueNumber">0</span></p>
+    <div class="container">
+        <div class="header">
+            <div>
+                <p><strong>Số thứ tự hiện tại: <span id="currentQueue">1</span></strong></p>
+                <div class="controls">
+                    <button onclick="decreaseQueue()">⬅ Giảm</button>
+                    <button onclick="increaseQueue()">Tăng ➡</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="step-1" class="step">
+            <h2>1. Tra cứu bệnh nhân</h2>
+        </div>
+        <div id="step-2" class="step hidden">
+            <h2>2. Khám bệnh & Chẩn đoán lâm sàng</h2>
+            <textarea placeholder="Triệu chứng lâm sàng"></textarea>
+            <textarea placeholder="Chẩn đoán sơ bộ"></textarea>
+        </div>
+        <div id="step-3" class="step hidden">
+            <h2>3. Chỉ định & Xét nghiệm</h2>
+            <input type="text" placeholder="Loại xét nghiệm">
+        </div>
+        <div id="step-4" class="step hidden">
+            <h2>4. Theo dõi kết quả xét nghiệm</h2>
+            <textarea placeholder="Kết quả xét nghiệm"></textarea>
+            <textarea placeholder="Chẩn đoán cuối cùng"></textarea>
+        </div>
+        <div id="step-5" class="step hidden">
+            <h2>5. Kê đơn thuốc & Điều trị</h2>
+            <textarea placeholder="Phương pháp điều trị"></textarea>
+            <textarea placeholder="Đơn thuốc"></textarea>
+        </div>
+        <div id="step-6" class="step hidden">
+            <h2>6. Nhập viện & Quản lý điều trị nội trú</h2>
+            <input type="text" placeholder="Số giường bệnh">
+            <textarea placeholder="Theo dõi hàng ngày"></textarea>
+        </div>
+        <div id="step-7" class="step hidden">
+            <h2>7. Quản lý hồ sơ bệnh án & Xuất viện</h2>
+            <textarea placeholder="Thông tin xuất viện & hướng dẫn"></textarea>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="prevStep()" id="prevBtn">⬅ Quay lại</button>
+            <button onclick="nextStep()" id="nextBtn">Tiếp tục ➡</button>
+            <button onclick="finishCurrentPatient()">✔ Hoàn tất</button>
+        </div>
     </div>
     
-    <div id="step-2" class="hidden">
-        <h2>2. Khám bệnh & Chẩn đoán lâm sàng</h2>
-        <textarea placeholder="Triệu chứng lâm sàng"></textarea>
-        <textarea placeholder="Chẩn đoán sơ bộ"></textarea>
-    </div>
-    
-    <div id="step-3" class="hidden">
-        <h2>3. Chỉ định & Xét nghiệm</h2>
-        <input type="text" placeholder="Loại xét nghiệm">
-    </div>
-    
-    <div id="step-4" class="hidden">
-        <h2>4. Theo dõi kết quả xét nghiệm</h2>
-        <textarea placeholder="Kết quả xét nghiệm"></textarea>
-        <textarea placeholder="Chẩn đoán cuối cùng"></textarea>
-    </div>
-    
-    <div id="step-5" class="hidden">
-        <h2>5. Kê đơn thuốc & Điều trị</h2>
-        <textarea placeholder="Phương pháp điều trị"></textarea>
-        <textarea placeholder="Đơn thuốc"></textarea>
-    </div>
-    
-    <div id="step-6" class="hidden">
-        <h2>6. Nhập viện & Quản lý điều trị nội trú</h2>
-        <input type="text" placeholder="Số giường bệnh">
-        <textarea placeholder="Theo dõi hàng ngày"></textarea>
-    </div>
-    
-    <div id="step-7" class="hidden">
-        <h2>7. Quản lý hồ sơ bệnh án & Xuất viện</h2>
-        <textarea placeholder="Thông tin xuất viện & hướng dẫn"></textarea>
-    </div>
-    
-    <div>
-        <button onclick="prevStep()" id="prevBtn">Quay lại</button>
-        <button onclick="nextStep()" id="nextBtn">Tiếp tục</button>
-        <button onclick="finishCurrentPatient()">Hoàn tất khám bệnh nhân</button>
+    <div class="sidebar">
+        <h2>Danh sách chờ</h2>
+        <ul id="waitingList"></ul>
     </div>
     
     <script>
         let currentStep = 1;
         let currentQueue = 1;
-        let waitingList = [];
-
-        function updateWaitingList() {
-            const listElement = document.getElementById("waitingList");
-            listElement.innerHTML = "";
-            waitingList.forEach(num => {
-                let li = document.createElement("li");
-                li.textContent = `Bệnh nhân số ${num}`;
-                listElement.appendChild(li);
-            });
-        }
 
         function increaseQueue() {
             currentQueue++;
             document.getElementById("currentQueue").innerText = currentQueue;
-            updateWaitingList();
         }
 
         function decreaseQueue() {
             if (currentQueue > 1) {
                 currentQueue--;
                 document.getElementById("currentQueue").innerText = currentQueue;
-                updateWaitingList();
             }
         }
 
         function nextStep() {
             if (currentStep < 7) {
+                document.getElementById(`step-${currentStep}`).classList.add("hidden");
                 currentStep++;
-                showStep(currentStep);
+                document.getElementById(`step-${currentStep}`).classList.remove("hidden");
             }
         }
 
         function prevStep() {
             if (currentStep > 1) {
+                document.getElementById(`step-${currentStep}`).classList.add("hidden");
                 currentStep--;
-                showStep(currentStep);
+                document.getElementById(`step-${currentStep}`).classList.remove("hidden");
             }
         }
 
         function finishCurrentPatient() {
             alert(`Bệnh nhân số ${currentQueue} đã hoàn tất khám. Tiếp tục bệnh nhân tiếp theo.`);
-            waitingList = waitingList.filter(num => num !== currentQueue);
             increaseQueue();
             currentStep = 1;
             showStep(1);
