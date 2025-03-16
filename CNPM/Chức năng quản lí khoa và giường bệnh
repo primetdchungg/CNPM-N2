@@ -1,1 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách khoa bệnh viện</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #a8edea, #fed6e3);
+            margin: 0;
+            padding: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            width: 90%;
+            max-width: 1400px;
+            text-align: center;
+            position: relative;
+        }
+        .grid-item {
+            background: linear-gradient(135deg, #42e695, #3bb2b8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .grid-item:hover {
+            background: linear-gradient(135deg, #5ee7df, #b490ca);
+            transform: scale(1.08);
+            box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        .sub-items, .bed-items {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 90%;
+            max-width: 1400px;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            padding-top: 60px;
+        }
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: transparent;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            border: none;
+        }
+        .bed-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            background: #4CAF50; 
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .bed-item:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        .bed-item i {
+            font-size: 60px;
+            color: #ffffff; 
+        .info-box {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            color: #333;
+        }
+        .info-box div {
+            margin: 5px 0;
+        }
+    </style>
+    <script>
+        // Hàm thay đổi màu nền giường
+        function changeBedColor(bedElement) {
+            const currentColor = bedElement.style.backgroundColor || "#4CAF50"; 
+            let newColor;
 
+            if (currentColor === "rgb(76, 175, 80)") { 
+                newColor = "#808080"; 
+            } else if (currentColor === "rgb(128, 128, 128)") { 
+                newColor = "#FF0000"; 
+            } else { 
+                newColor = "#4CAF50"; 
+            }
+
+            bedElement.style.backgroundColor = newColor;
+        }
+
+        function toggleSubItems(department) {
+            document.getElementById("sub-items").style.display = "grid";
+            document.getElementById("main-items").style.display = "none";
+            updateStaffInfo(department, 5, 10); 
+        }
+
+        function showBeds(roomId) {
+            document.querySelectorAll('.bed-items').forEach(el => el.style.display = 'none');
+            document.getElementById(roomId).style.display = "grid";
+            document.getElementById("sub-items").style.display = "none";
+        }
+
+        function goBackToSubItems() {
+            document.querySelectorAll('.bed-items').forEach(el => el.style.display = 'none');
+            document.getElementById("sub-items").style.display = "grid";
+        }
+
+        function goBackToMain() {
+            document.getElementById("sub-items").style.display = "none";
+            document.getElementById("main-items").style.display = "grid";
+            document.getElementById("info-box").style.display = "none";
+        }
+
+        function updateStaffInfo(department, doctors, nurses) {
+            const infoBox = document.getElementById("info-box");
+            infoBox.innerHTML = `
+                <div><strong>${department}</strong></div>
+                <div>Số bác sỹ: ${doctors}</div>
+                <div>Số y tá: ${nurses}</div>
+            `;
+            infoBox.style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="grid-container" id="main-items">
+        <div class="grid-item" onclick="toggleSubItems('Khoa cấp cứu')">Khoa cấp cứu</div>
+        <div class="grid-item" onclick="toggleSubItems('Khoa hồi sức')">Khoa hồi sức</div>
+        <div class="grid-item" onclick="toggleSubItems('Khoa chấn thương chỉnh hình')">Khoa chấn thương chỉnh hình</div>
+        <div class="grid-item" onclick="toggleSubItems('Khoa nội thần kinh')">Khoa nội thần kinh</div>
+        <div class="grid-item" onclick="toggleSubItems('Khoa ngoại thần kinh')">Khoa ngoại thần kinh</div>
+        <div class="grid-item" onclick="toggleSubItems('Khoa hô hấp')">Khoa hô hấp</div>
+    </div>
+
+    <div id="sub-items" class="grid-container" style="display: none;">
+        <button class="back-button" onclick="goBackToMain()">⬅</button>
+        <div class="grid-item" onclick="showBeds('beds-emergency-1')">Cấp cứu 1</div>
+        <div class="grid-item" onclick="showBeds('beds-emergency-2')">Cấp cứu 2</div>
+        <div class="grid-item" onclick="showBeds('beds-emergency-3')">Cấp cứu 3</div>
+        <div class="grid-item" onclick="showBeds('beds-emergency-4')">Cấp cứu 4</div>
+    </div>
+
+    <!-- Danh sách giường cho từng phòng -->
+    <div id="beds-emergency-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-emergency-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-emergency-3" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-emergency-4" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Khoa hồi sức -->
+    <div id="beds-recovery-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-recovery-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Khoa chấn thương chỉnh hình -->
+    <div id="beds-orthopedic-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-orthopedic-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Khoa nội thần kinh -->
+    <div id="beds-neurology-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-neurology-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Khoa ngoại thần kinh -->
+    <div id="beds-neurosurgery-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-neurosurgery-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Khoa hô hấp -->
+    <div id="beds-respiratory-1" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <div id="beds-respiratory-2" class="grid-container bed-items" style="display: none;">
+        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
+        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+    </div>
+
+    <!-- Hiển thị thông tin nhân viên -->
+    <div id="info-box" class="info-box" style="display: none;">
+        <!-- Nội dung sẽ được cập nhật bằng JavaScript -->
+    </div>
+</body>
+</html>
