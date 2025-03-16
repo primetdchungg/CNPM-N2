@@ -29,35 +29,29 @@
             margin-left: 270px; /* Đẩy nội dung sang phải */
         }
 
-        /* Phần chứa tìm kiếm, thêm nhân sự, danh sách nhân sự */
-        .controls {
-            display: flex;
-            flex-direction: column; /* Xếp theo chiều dọc */
-            gap: 10px; /* Khoảng cách giữa các phần */
-            width: 100%;
-            max-width: 400px;
-        }
-
         /* Ô tìm kiếm nhân sự */
         .search-box {
             width: 100%;
+            max-width: 400px;
             padding: 10px;
             border: 2px solid #6a0dad;
             border-radius: 5px;
             font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
         }
 
-        /* Nút thêm nhân sự */
         .add-button {
             background-color: #27ae60; /* Màu xanh lá */
             color: white;
-            padding: 10px 20px; /* Giảm padding ngang để nút nhỏ lại */
+            padding: 10px 15px;
             font-size: 16px;
             font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: fit-content; /* Kích thước vừa với nội dung */
+            display: block;
+            margin-bottom: 10px;
         }
 
         /* Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
@@ -74,6 +68,40 @@
             font-weight: bold;
             border-radius: 5px; /* Bo tròn góc */
             display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* Form thêm nhân sự */
+        .employee-form {
+            display: none; /* Ẩn mặc định */
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            max-width: 400px;
+        }
+
+        .employee-form label {
+            font-weight: bold;
+        }
+
+        .employee-form input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .employee-form button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         /* Danh sách nhân viên */
@@ -81,7 +109,6 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* 4 cột */
             gap: 20px; /* Khoảng cách giữa các ô */
-            margin-top: 20px;
         }
 
         /* Ô nhân viên */
@@ -122,56 +149,88 @@
 
     <!-- Nội dung chính -->
     <div class="content">
-        <!-- Phần chứa các nút điều khiển -->
-        <div class="controls">
-            <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
-            <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
-            <div class="title">Danh sách nhân viên</div>
+        <!-- Ô tìm kiếm nhân sự -->
+        <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
+        
+        <!-- Nút thêm nhân sự -->
+        <button class="add-button" onclick="toggleForm()">Thêm nhân sự</button>
+
+        <!-- Form nhập nhân sự -->
+        <div class="employee-form" id="employeeForm">
+            <label>Họ và tên:</label>
+            <input type="text" id="name" placeholder="Nhập họ và tên">
+
+            <label>Số CCCD:</label>
+            <input type="text" id="cccd" placeholder="Nhập số CCCD">
+
+            <label>Chức vụ:</label>
+            <input type="text" id="position" placeholder="Nhập chức vụ">
+
+            <label>Khoa:</label>
+            <input type="text" id="department" placeholder="Nhập khoa">
+
+            <label>Ảnh:</label>
+            <input type="text" id="image" placeholder="Nhập URL ảnh">
+
+            <button onclick="addEmployee()">Lưu nhân sự</button>
         </div>
 
+        <!-- Tiêu đề "Danh sách nhân viên" -->
+        <div class="title">Danh sách nhân viên</div>
+
         <!-- Danh sách nhân viên -->
-        <div class="employee-list">
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 1">
-                <div class="employee-name">Nguyễn Văn A</div>
-                <div class="employee-position">Quản lý</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 2">
-                <div class="employee-name">Trần Thị B</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 3">
-                <div class="employee-name">Lê Văn C</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 4">
-                <div class="employee-name">Phạm Thị D</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 5">
-                <div class="employee-name">Hoàng Văn E</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 6">
-                <div class="employee-name">Đặng Thị F</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 7">
-                <div class="employee-name">Bùi Văn G</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
-            <div class="employee">
-                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 8">
-                <div class="employee-name">Võ Thị H</div>
-                <div class="employee-position">Nhân viên</div>
-            </div>
+        <div class="employee-list" id="employeeList">
+            <!-- Nhân viên sẽ được thêm vào đây -->
         </div>
     </div>
+
+    <script>
+        function toggleForm() {
+            var form = document.getElementById("employeeForm");
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        function addEmployee() {
+            var name = document.getElementById("name").value;
+            var cccd = document.getElementById("cccd").value;
+            var position = document.getElementById("position").value;
+            var department = document.getElementById("department").value;
+            var image = document.getElementById("image").value || "https://via.placeholder.com/120x160";
+
+            if (name === "" || cccd === "" || position === "" || department === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            var employeeList = document.getElementById("employeeList");
+
+            var employeeDiv = document.createElement("div");
+            employeeDiv.classList.add("employee");
+
+            employeeDiv.innerHTML = `
+                <img src="${image}" alt="Ảnh nhân viên">
+                <div class="employee-name">${name}</div>
+                <div class="employee-position">${position}</div>
+                <div class="employee-position">CCCD: ${cccd}</div>
+                <div class="employee-position">Khoa: ${department}</div>
+            `;
+
+            employeeList.appendChild(employeeDiv);
+
+            // Reset form
+            document.getElementById("name").value = "";
+            document.getElementById("cccd").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("department").value = "";
+            document.getElementById("image").value = "";
+
+            // Ẩn form sau khi thêm
+            document.getElementById("employeeForm").style.display = "none";
+        }
+    </script>
 </body>
 </html>
