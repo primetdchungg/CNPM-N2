@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lí Nhân Sự</title>
+    <style>
+        /* 📌 Định dạng tổng thể của trang */
+        body {
+            font-family: Arial, sans-serif; /* Sử dụng font chữ dễ đọc */
+            display: flex; /* Hiển thị dạng flex để dễ căn chỉnh */
+            margin: 0; /* Xóa margin mặc định */
+        }
+        
+        /* 📌 Container chính chứa nội dung của trang */
+        .container {
+            flex: 1; /* Cho phép mở rộng hết không gian còn lại */
+            padding: 20px; /* Khoảng cách giữa nội dung và viền */
+            margin-left: 250px; /* Chừa khoảng trống bên trái để tránh đè lên sidebar */
+        }
+
+        /* 📌 Ô tìm kiếm */
+        .search-box {
+            width: 100%; /* Chiếm toàn bộ chiều rộng container */
+            max-width: 400px; /* Giới hạn chiều rộng tối đa */
+            padding: 10px; /* Khoảng cách bên trong ô nhập */
+            border: 2px solid #6a0dad; /* Viền màu tím */
+            border-radius: 5px; /* Bo tròn góc */
+            font-size: 16px; /* Cỡ chữ */
+        }
+
+        /* 📌 Nút "Thêm nhân sự" */
+        .add-button {
+            background-color: #27ae60; /* Màu nền xanh lá */
+            color: white; /* Chữ màu trắng */
+            padding: 10px 15px; /* Khoảng cách bên trong */
+            font-size: 16px; /* Cỡ chữ */
+            font-weight: bold; /* In đậm */
+            border: none; /* Xóa viền mặc định */
+            border-radius: 5px; /* Bo tròn góc */
+            cursor: pointer; /* Hiển thị con trỏ khi di chuột vào */
+        }
+
+        /* 📌 Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
+        .add-button:hover {
+            background-color: #229954; /* Chuyển màu xanh lá đậm hơn */
+        }
+        
+        /* 📌 Khu vực chứa tiêu đề "Danh sách nhân viên" */
+        .header {
+            display: flex; /* Hiển thị dạng hàng ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            margin-top: 50px; /* Khoảng cách với ô tìm kiếm */
+        }
+
+        /* 📌 Tiêu đề "Danh sách nhân viên" */
+        .title {
+            background-color: #c0392b; /* Màu nền đỏ */
+            color: white; /* Chữ màu trắng */
+            padding: 10px 15px; /* Khoảng cách bên trong */
+            font-size: 18px; /* Cỡ chữ lớn */
+            font-weight: bold; /* In đậm */
+            border-radius: 5px; /* Bo tròn góc */
+            margin-: 10px; /* Cách nút thêm nhân sự một khoảng */
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 📌 Ô tìm kiếm nhân sự -->
+        <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
+        
+        <!-- 📌 Tiêu đề "Danh sách nhân viên" + Nút "Thêm nhân sự" -->
+        <div class="header">
+            <div class="title">Danh sách nhân viên</div> <!-- Tiêu đề chính -->
+            <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
+        </div>
+    </div>
+</body>
+</html>
 
