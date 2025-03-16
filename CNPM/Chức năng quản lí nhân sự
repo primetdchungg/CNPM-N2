@@ -5,79 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lí Nhân Sự</title>
     <style>
-        /* 📌 Định dạng tổng thể của trang */
+        /* Định dạng toàn bộ trang */
         body {
-            font-family: Arial, sans-serif; /* Sử dụng font chữ dễ đọc */
-            display: flex; /* Hiển thị dạng flex để dễ căn chỉnh */
-            margin: 0; /* Xóa margin mặc định */
-        }
-        
-        /* 📌 Container chính chứa nội dung của trang */
-        .container {
-            flex: 1; /* Cho phép mở rộng hết không gian còn lại */
-            padding: 20px; /* Khoảng cách giữa nội dung và viền */
-            margin-left: 250px; /* Chừa khoảng trống bên trái để tránh đè lên sidebar */
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
         }
 
-        /* 📌 Ô tìm kiếm */
+        /* Thanh menu bên trái */
+        .sidebar {
+            width: 250px; /* Độ rộng sidebar */
+            background-color: #5f89b9; /* Màu xanh dương */
+            height: 100vh; /* Full chiều cao */
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        /* Nội dung chính */
+        .content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 270px; /* Đẩy nội dung sang phải */
+        }
+
+        /* Ô tìm kiếm nhân sự */
         .search-box {
-            width: 100%; /* Chiếm toàn bộ chiều rộng container */
-            max-width: 400px; /* Giới hạn chiều rộng tối đa */
-            padding: 10px; /* Khoảng cách bên trong ô nhập */
-            border: 2px solid #6a0dad; /* Viền màu tím */
-            border-radius: 5px; /* Bo tròn góc */
-            font-size: 16px; /* Cỡ chữ */
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 2px solid #6a0dad;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
         }
 
-        /* 📌 Nút "Thêm nhân sự" */
         .add-button {
-            background-color: #27ae60; /* Màu nền xanh lá */
-            color: white; /* Chữ màu trắng */
-            padding: 10px 15px; /* Khoảng cách bên trong */
-            font-size: 16px; /* Cỡ chữ */
-            font-weight: bold; /* In đậm */
-            border: none; /* Xóa viền mặc định */
-            border-radius: 5px; /* Bo tròn góc */
-            cursor: pointer; /* Hiển thị con trỏ khi di chuột vào */
+            background-color: #27ae60; /* Màu xanh lá */
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
+        .add-button:hover {
+            background-color: #229954; /* Xanh lá đậm hơn */
         }
 
-        /* 📌 Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
-        .add-button:hover {
-            background-color: #229954; /* Chuyển màu xanh lá đậm hơn */
+        /* Tiêu đề "Danh sách nhân viên" */
+        .title {
+            background-color: #d34a3a;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px; /* Bo tròn góc */
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* Danh sách nhân viên */
+        .employee-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 cột */
+            gap: 20px; /* Khoảng cách giữa các ô */
         }
         
-        /* 📌 Khu vực chứa tiêu đề "Danh sách nhân viên" */
-        .header {
-            display: flex; /* Hiển thị dạng hàng ngang */
-            align-items: center; /* Căn giữa theo chiều dọc */
-            margin-top: 50px; /* Khoảng cách với ô tìm kiếm */
+
+        /* Ô nhân viên */
+        .employee {
+            background-color: #f0f0f0; /* Màu xám nhạt */
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
         }
 
-        /* 📌 Tiêu đề "Danh sách nhân viên" */
-        .title {
-            background-color: #c0392b; /* Màu nền đỏ */
-            color: white; /* Chữ màu trắng */
-            padding: 10px 15px; /* Khoảng cách bên trong */
-            font-size: 18px; /* Cỡ chữ lớn */
-            font-weight: bold; /* In đậm */
-            border-radius: 5px; /* Bo tròn góc */
-            margin-: 10px; /* Cách nút thêm nhân sự một khoảng */
+        /* Ảnh nhân viên (Tỷ lệ 3:4) */
+        .employee img {
+            width: 120px;
+            height: 160px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin-bottom: 10px;
         }
 
-       
+        /* Tên nhân viên */
+        .employee-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Chức vụ nhân viên */
+        .employee-position {
+            font-size: 14px;
+            color: gray;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 📌 Ô tìm kiếm nhân sự -->
+    <!-- Thanh menu bên trái -->
+    <div class="sidebar">
+        <!-- Nội dung sidebar -->
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="content">
+        <!-- Ô tìm kiếm nhân sự -->
         <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
         
-        <!-- 📌 Tiêu đề "Danh sách nhân viên" + Nút "Thêm nhân sự" -->
-        <div class="header">
-            <div class="title">Danh sách nhân viên</div> <!-- Tiêu đề chính -->
-            <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
+        <!-- Tiêu đề "Danh sách nhân viên" -->
+        <div class="title">Danh sách nhân viên</div>
+        <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
+        <!-- Danh sách nhân viên -->
+        <div class="employee-list">
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 1">
+                <div class="employee-name">Nguyễn Văn A</div>
+                <div class="employee-position">Quản lý</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 2">
+                <div class="employee-name">Trần Thị B</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 3">
+                <div class="employee-name">Lê Văn C</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 4">
+                <div class="employee-name">Phạm Thị D</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 5">
+                <div class="employee-name">Hoàng Văn E</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 6">
+                <div class="employee-name">Đặng Thị F</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 7">
+                <div class="employee-name">Bùi Văn G</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
+            <div class="employee">
+                <img src="https://via.placeholder.com/120x160" alt="Nhân viên 8">
+                <div class="employee-name">Võ Thị H</div>
+                <div class="employee-position">Nhân viên</div>
+            </div>
         </div>
     </div>
 </body>
 </html>
-
