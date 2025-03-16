@@ -29,28 +29,37 @@
             margin-left: 270px; /* Đẩy nội dung sang phải */
         }
 
+        /* Phần chứa tìm kiếm, thêm nhân sự, danh sách nhân sự */
+        .controls {
+            display: flex;
+            flex-direction: column; /* Xếp theo chiều dọc */
+            gap: 10px; /* Khoảng cách giữa các phần */
+            width: 100%;
+            max-width: 400px;
+        }
+
         /* Ô tìm kiếm nhân sự */
         .search-box {
             width: 100%;
-            max-width: 400px;
             padding: 10px;
             border: 2px solid #6a0dad;
             border-radius: 5px;
             font-size: 16px;
-            display: block;
-            margin-bottom: 10px;
         }
 
+        /* Nút thêm nhân sự */
         .add-button {
             background-color: #27ae60; /* Màu xanh lá */
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px; /* Giảm padding ngang để nút nhỏ lại */
             font-size: 16px;
             font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: fit-content; /* Kích thước vừa với nội dung */
         }
+
         /* Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
         .add-button:hover {
             background-color: #229954; /* Xanh lá đậm hơn */
@@ -65,7 +74,6 @@
             font-weight: bold;
             border-radius: 5px; /* Bo tròn góc */
             display: inline-block;
-            margin-bottom: 20px;
         }
 
         /* Danh sách nhân viên */
@@ -73,8 +81,8 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* 4 cột */
             gap: 20px; /* Khoảng cách giữa các ô */
+            margin-top: 20px;
         }
-        
 
         /* Ô nhân viên */
         .employee {
@@ -114,12 +122,13 @@
 
     <!-- Nội dung chính -->
     <div class="content">
-        <!-- Ô tìm kiếm nhân sự -->
-        <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
-        
-        <!-- Tiêu đề "Danh sách nhân viên" -->
-        <div class="title">Danh sách nhân viên</div>
-        <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
+        <!-- Phần chứa các nút điều khiển -->
+        <div class="controls">
+            <input type="text" class="search-box" placeholder="Tìm kiếm nhân sự...">
+            <button class="add-button">Thêm nhân sự</button> <!-- Nút thêm nhân sự -->
+            <div class="title">Danh sách nhân viên</div>
+        </div>
+
         <!-- Danh sách nhân viên -->
         <div class="employee-list">
             <div class="employee">
