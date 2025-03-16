@@ -73,7 +73,7 @@
             align-items: center;
             color: white;
             font-size: 24px;
-            background: #4CAF50; 
+            background: #4CAF50; /* Màu xanh lá cây mặc định (Trống) */
             border-radius: 20px;
             padding: 20px;
             box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
@@ -86,7 +86,8 @@
         }
         .bed-item i {
             font-size: 60px;
-            color: #ffffff; 
+            color: #ffffff; /* Màu trắng cho icon */
+        }
         .info-box {
             position: fixed;
             top: 10px;
@@ -105,15 +106,15 @@
     <script>
         // Hàm thay đổi màu nền giường
         function changeBedColor(bedElement) {
-            const currentColor = bedElement.style.backgroundColor || "#4CAF50"; 
+            const currentColor = bedElement.style.backgroundColor || "#4CAF50"; // Màu mặc định là xanh lá cây
             let newColor;
 
-            if (currentColor === "rgb(76, 175, 80)") { 
-                newColor = "#808080"; 
-            } else if (currentColor === "rgb(128, 128, 128)") { 
-                newColor = "#FF0000"; 
-            } else { 
-                newColor = "#4CAF50"; 
+            if (currentColor === "rgb(76, 175, 80)") { // Trống -> Đang sử dụng
+                newColor = "#808080"; // Màu xám
+            } else if (currentColor === "rgb(128, 128, 128)") { // Đang sử dụng -> Cần vệ sinh
+                newColor = "#FF0000"; // Màu đỏ
+            } else { // Cần vệ sinh -> Trống
+                newColor = "#4CAF50"; // Màu xanh lá cây
             }
 
             bedElement.style.backgroundColor = newColor;
@@ -122,7 +123,7 @@
         function toggleSubItems(department) {
             document.getElementById("sub-items").style.display = "grid";
             document.getElementById("main-items").style.display = "none";
-            updateStaffInfo(department, 5, 10); 
+            updateStaffInfo(department, 5, 10); // Cập nhật thông tin nhân viên
         }
 
         function showBeds(roomId) {
@@ -154,6 +155,7 @@
     </script>
 </head>
 <body>
+    <!-- Trang chính -->
     <div class="grid-container" id="main-items">
         <div class="grid-item" onclick="toggleSubItems('Khoa cấp cứu')">Khoa cấp cứu</div>
         <div class="grid-item" onclick="toggleSubItems('Khoa hồi sức')">Khoa hồi sức</div>
@@ -163,6 +165,7 @@
         <div class="grid-item" onclick="toggleSubItems('Khoa hô hấp')">Khoa hô hấp</div>
     </div>
 
+    <!-- Danh sách phòng cấp cứu -->
     <div id="sub-items" class="grid-container" style="display: none;">
         <button class="back-button" onclick="goBackToMain()">⬅</button>
         <div class="grid-item" onclick="showBeds('beds-emergency-1')">Cấp cứu 1</div>
