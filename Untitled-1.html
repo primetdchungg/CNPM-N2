@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Bệnh Nhân</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar h2 {
+            margin: 0 0 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            background: #444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .sidebar button:hover {
+            background: #555;
+        }
+        .submenu {
+            display: none;
+            padding-left: 15px;
+        }
+        .submenu button {
+            background: #555;
+            padding: 8px;
+            font-size: 14px;
+            margin: 3px 0;
+            border-radius: 3px;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+        .content-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Quản Lý Bệnh Nhân</h2>
+        <button onclick="showContent('patient-registration')">Đăng ký bệnh nhân mới</button>
+        <button onclick="toggleSubmenu()">Bệnh nhân</button>
+        <div id="submenu" class="submenu">
+            <button onclick="showContent('patient-search')">Tra cứu bệnh nhân</button>
+            <button onclick="showContent('patient-records')">Hồ sơ bệnh án</button>
+        </div>
+        <button onclick="showContent('medical-history')">Lịch sử khám bệnh</button>
+        <button onclick="showContent('patient-list')">Danh sách bệnh nhân</button>
+    </div>
+    <div class="container">
+        <div id="patient-registration" class="content-section">
+            <h1>Đăng Ký Bệnh Nhân Mới</h1>
+            <input id="patient-name" placeholder="Họ và tên">
+            <input id="patient-phone" placeholder="Số điện thoại">
+            <input id="patient-age" placeholder="Tuổi">
+            <input id="patient-cccd" placeholder="CCCD">
+            <select id="patient-gender">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+            <input id="patient-history" placeholder="Tiền sử bệnh">
+            <button onclick="confirmPatientRegistration()">Xác nhận</button>
+        </div>
+        <div id="patient-list" class="content-section">
+            <h1>Danh Sách Bệnh Nhân</h1>
+            <ul id="patient-list-content"></ul>
+        </div>
+        <div id="medical-history" class="content-section">
+            <h1>Lịch Sử Khám Bệnh</h1>
+            <input id="history-patient-id" placeholder="Mã bệnh nhân">
+            <input id="history-date" type="date">
+            <input id="history-diagnosis" placeholder="Chẩn đoán">
+            <input id="history-treatment" placeholder="Điều trị">
+            <button onclick="addPatientHistory()">Thêm</button>
+            <ul id="history-list"></ul>
+        </div>
+        <div id="patient-search" class="content-section">
+            <h1>Tra Cứu Bệnh Nhân</h1>
+            <p>Tính năng đang được phát triển.</p>
+        </div>
+        <div id="patient-records" class="content-section">
+            <h1>Hồ Sơ Bệnh Án</h1>
+            <p>Tính năng đang được phát triển.</p>
+        </div>
+    </div>
+    <script>
+        let patients = [];
+        let medicalHistory = [];
+
+        function showContent(sectionID) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionID).style.display = 'block';
+        }
+
+        function toggleSubmenu() {
+            let submenu = document.getElementById('submenu');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function confirmPatientRegistration() {
+            let name = document.getElementById('patient-name').value.trim();
+            let phone = document.getElementById('patient-phone').value.trim();
+            let age = document.getElementById('patient-age').value.trim();
+            let cccd = document.getElementById('patient-cccd').value.trim();
+            let gender = document.getElementById('patient-gender').value;
+            let history = document.getElementById('patient-history').value.trim();
+
+            if (!name || !phone || !age || !cccd) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            
+            let patientID = 'BN' + Math.floor(100000 + Math.random() * 900000);
+            patients.push({ id: patientID, name, phone, age, cccd, gender, history });
+            alert(`Bệnh nhân ${name} đã được đăng ký với mã ${patientID}`);
+            updatePatientList();
+        }
+
+        function updatePatientList() {
+            let listContainer = document.getElementById('patient-list-content');
+            listContainer.innerHTML = '';
+            patients.forEach((p, i) => {
+                let listItem = document.createElement('li');
+                listItem.innerHTML = `${i + 1}. ${p.name} - Mã BN: ${p.id} <button onclick="deletePatient('${p.id}')">Xóa</button>`;
+                listContainer.appendChild(listItem);
+            });
+        }
+
+        function addPatientHistory() {
+            let patientID = document.getElementById('history-patient-id').value.trim();
+            let date = document.getElementById('history-date').value;
+            let diagnosis = document.getElementById('history-diagnosis').value.trim();
+            let treatment = document.getElementById('history-treatment').value.trim();
+
+            if (!patientID || !date || !diagnosis || !treatment) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            medicalHistory.push({ id: patientID, date, diagnosis, treatment });
+            updateHistoryList();
+        }
+    </script>
+</body>
+</html>
