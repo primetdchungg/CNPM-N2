@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lí Hệ Thống Bệnh Viện</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #263241;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: block;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background-color: #98b7d9;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .content-container {
+            margin-left: 220px;
+            padding: 20px;
+            flex: 1;
+        }
+        .content {
+            display: none;
+            font-size: 18px;
+        }
+        .search-box {
+            margin-bottom: 10px;
+        }
+        .medicine-detail {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 300px;
+        }
+        .medicine-detail button {
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #98b7d9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="showContent('pharmacy-management')">Quản Lí Kho Thuốc</button>
+    </div>
+   
+    <div class="content-container">
+        <div id="pharmacy-management" class="content" style="display: block;">
+            <h2>Quản Lí Kho Thuốc</h2>
+            <input type="text" id="search-input" class="search-box" placeholder="Tìm kiếm thuốc..." onkeyup="searchMedicine()">
+            <table border="1" width="100%">
+                <thead>
+                    <tr>
+                        <th>Tên Thuốc</th>
+                        <th>Công Dụng</th>
+                        <th>Giá</th>
+                        <th>Số Lượng</th>
+                    </tr>
+                </thead>
+                <tbody id="medicine-list">
+                    <tr onclick="showMedicineDetail('Paracetamol', 'Paracetamol', 'Giảm đau, hạ sốt', 'Buồn nôn, phát ban', 'Nơi khô ráo, tránh ánh nắng trực tiếp', 20000, 50)"><td>Paracetamol</td><td>Giảm đau, hạ sốt</td><td>20.000đ</td><td id="Paracetamol-qty">50</td></tr>
+                    <tr onclick="showMedicineDetail('Ibuprofen', 'Ibuprofen', 'Kháng viêm, giảm đau', 'Đau dạ dày, chóng mặt', 'Bảo quản ở nhiệt độ phòng', 30000, 30)"><td>Ibuprofen</td><td>Kháng viêm, giảm đau</td><td>30.000đ</td><td id="Ibuprofen-qty">30</td></tr>
+                    <tr onclick="showMedicineDetail('Amoxicillin', 'Amoxicillin', 'Kháng sinh điều trị nhiễm trùng', 'Buồn nôn, tiêu chảy', 'Bảo quản nơi khô ráo', 25000, 40)"><td>Amoxicillin</td><td>Kháng sinh điều trị nhiễm trùng</td><td>25.000đ</td><td id="Amoxicillin-qty">40</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+   
+    <div id="medicine-detail" class="medicine-detail">
+        <h3 id="medicine-name"></h3>
+        <p><strong>Thành phần:</strong> <span id="medicine-ingredient"></span></p>
+        <p><strong>Cách dùng:</strong> <span id="medicine-usage"></span></p>
+        <p><strong>Tác dụng phụ:</strong> <span id="medicine-side-effect"></span></p>
+        <p><strong>Cách bảo quản:</strong> <span id="medicine-storage"></span></p>
+        <p><strong>Giá:</strong> <span id="medicine-price"></span>đ</p>
+        <label for="quantity">Số lượng: </label>
+        <input type="number" id="quantity" min="1" value="1">
+        <button onclick="purchaseMedicine()">Mua ngay</button>
+        <button onclick="closeMedicineDetail()">Đóng</button>
+    </div>
+   
+    <script>
+        let selectedMedicine = '';
+        let selectedPrice = 0;
+        let stock = { 'Paracetamol': 50, 'Ibuprofen': 30, 'Amoxicillin': 40 };
+       
+        function showMedicineDetail(name, ingredient, usage, sideEffect, storage, price, quantity) {
+            selectedMedicine = name;
+            document.getElementById('medicine-name').innerText = name;
+            document.getElementById('medicine-ingredient').innerText = ingredient;
+            document.getElementById('medicine-usage').innerText = usage;
+            document.getElementById('medicine-side-effect').innerText = sideEffect;
+            document.getElementById('medicine-storage').innerText = storage;
+            document.getElementById('medicine-price').innerText = price;
+            selectedPrice = price;
+            document.getElementById('medicine-detail').style.display = 'block';
+        }
+       
+        function purchaseMedicine() {
+            let quantity = parseInt(document.getElementById('quantity').value);
+            if (quantity > stock[selectedMedicine]) {
+                alert('Không đủ số lượng thuốc trong kho!');
+                return;
+            }
+            stock[selectedMedicine] -= quantity;
+            document.getElementById(`${selectedMedicine}-qty`).innerText = stock[selectedMedicine];
+            let totalPrice = quantity * selectedPrice;
+            alert(`Bạn đã mua ${quantity} sản phẩm với tổng giá ${totalPrice}đ. Số lượng còn lại: ${stock[selectedMedicine]}`);
+            closeMedicineDetail();
+        }
+       
+        function closeMedicineDetail() {
+            document.getElementById('medicine-detail').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
