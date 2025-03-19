@@ -1,300 +1,571 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách khoa bệnh viện</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(to right, #a8edea, #fed6e3);
-            margin: 0;
-            padding: 20px;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            width: 90%;
-            max-width: 1400px;
-            text-align: center;
-            position: relative;
-        }
-        .grid-item {
-            background: linear-gradient(135deg, #42e695, #3bb2b8);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 160px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
-        }
-        .grid-item:hover {
-            background: linear-gradient(135deg, #5ee7df, #b490ca);
-            transform: scale(1.08);
-            box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.3);
-        }
-        .sub-items, .bed-items {
-            display: none;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            width: 90%;
-            max-width: 1400px;
-            position: relative;
-            justify-content: center;
-            align-items: center;
-            padding-top: 60px;
-        }
-        .back-button {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: transparent;
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            border: none;
-        }
-        .bed-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            background: #4CAF50; /* Màu xanh lá cây mặc định (Trống) */
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .bed-item:hover {
-            transform: scale(1.05);
-            box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.3);
-        }
-        .bed-item i {
-            font-size: 60px;
-            color: #ffffff; /* Màu trắng cho icon */
-        }
-        .info-box {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.2);
-            font-size: 18px;
-            color: #333;
-        }
-        .info-box div {
-            margin: 5px 0;
-        }
-    </style>
-    <script>
-        // Hàm thay đổi màu nền giường
-        function changeBedColor(bedElement) {
-            const currentColor = bedElement.style.backgroundColor || "#4CAF50"; // Màu mặc định là xanh lá cây
-            let newColor;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khoa bệnh viện</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: white;
+      position: relative;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .box {
+      width: 200px;
+      height: 100px;
+      background-color: white;
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      border: 2px solid gray;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .box:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .hidden {
+      display: none;
+    }
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid gray;
+      border-radius: 5px;
+      background-color: white;
+    }
+    .back-button:hover {
+      background-color: lightgray;
+    }
+    .header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+      width: 100%;
+    }
+    .info {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+      text-align: right;
+    }
+    .bed-section {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .bed-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .bed-actions button {
+      cursor: pointer;
+      padding: 5px 10px;
+      border: 2px solid gray;
+      border-radius: 5px;
+      background-color: white;
+    }
+    .bed-actions button:hover {
+      background-color: lightgray;
+    }
+  </style>
+  <script>
+    /* ============= Chức năng dùng chung ============= */
+    // Hàm chuyển đổi trạng thái của giường theo thứ tự: "Trống" -> "Đang sử dụng" -> "Cần vệ sinh" -> "Trống"
+    function cycleStatusGeneric(bed) {
+      const statuses = ["Trống", "Đang sử dụng", "Cần vệ sinh"];
+      let currentStatus = bed.dataset.status;
+      let currentIndex = statuses.indexOf(currentStatus);
+      let nextIndex = (currentIndex + 1) % statuses.length;
+      bed.dataset.status = statuses[nextIndex];
+      bed.textContent = "Giường " + bed.dataset.number + " - " + bed.dataset.status;
+    }
 
-            if (currentColor === "rgb(76, 175, 80)") { // Trống -> Đang sử dụng
-                newColor = "#808080"; // Màu xám
-            } else if (currentColor === "rgb(128, 128, 128)") { // Đang sử dụng -> Cần vệ sinh
-                newColor = "#FF0000"; // Màu đỏ
-            } else { // Cần vệ sinh -> Trống
-                newColor = "#4CAF50"; // Màu xanh lá cây
-            }
+    /* ============= Khoa cấp cứu ============= */
+    function showEmergencyRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('emergency-section').classList.remove('hidden');
+    }
+    function goBack() {
+      // Sử dụng chung cho các khoa nếu muốn quay lại danh sách khoa
+      document.getElementById('departments').classList.remove('hidden');
+      // Ẩn tất cả các section khoa
+      document.getElementById('emergency-section').classList.add('hidden');
+      document.getElementById('intensive-section').classList.add('hidden');
+      document.getElementById('trauma-section').classList.add('hidden');
+      document.getElementById('neurology-section').classList.add('hidden');
+      document.getElementById('neurosurgery-section').classList.add('hidden');
+      document.getElementById('respiratory-section').classList.add('hidden');
+      // Ẩn các phần giường
+      document.getElementById('bed-section').classList.add('hidden');
+      document.getElementById('intensive-bed-section').classList.add('hidden');
+      document.getElementById('trauma-bed-section').classList.add('hidden');
+      document.getElementById('neurology-bed-section').classList.add('hidden');
+      document.getElementById('neurosurgery-bed-section').classList.add('hidden');
+      document.getElementById('respiratory-bed-section').classList.add('hidden');
+    }
+    function showBeds(room) {
+      document.getElementById('emergency-rooms').classList.add('hidden');
+      document.getElementById('bed-section').classList.remove('hidden');
+      document.getElementById('bed-header').textContent = room;
+      let bedList = document.getElementById('bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBed();
+      }
+    }
+    function goBackToRooms() {
+      document.getElementById('bed-section').classList.add('hidden');
+      document.getElementById('emergency-rooms').classList.remove('hidden');
+    }
+    function addBed() {
+      let bedList = document.getElementById('bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBed() {
+      let bedList = document.getElementById('bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
 
-            bedElement.style.backgroundColor = newColor;
-        }
+    /* ============= Khoa hồi sức ============= */
+    function showIntensiveCareRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('intensive-section').classList.remove('hidden');
+    }
+    function goBackFromIntensive() {
+      goBack();
+    }
+    function showIntensiveBeds(room) {
+      document.getElementById('intensive-rooms').classList.add('hidden');
+      document.getElementById('intensive-bed-section').classList.remove('hidden');
+      document.getElementById('intensive-bed-header').textContent = room;
+      let bedList = document.getElementById('intensive-bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBedIntensive();
+      }
+    }
+    function goBackToIntensiveRooms() {
+      document.getElementById('intensive-bed-section').classList.add('hidden');
+      document.getElementById('intensive-rooms').classList.remove('hidden');
+    }
+    function addBedIntensive() {
+      let bedList = document.getElementById('intensive-bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBedIntensive() {
+      let bedList = document.getElementById('intensive-bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
 
-        function toggleSubItems(department) {
-            document.getElementById("sub-items").style.display = "grid";
-            document.getElementById("main-items").style.display = "none";
-            updateStaffInfo(department, 5, 10); // Cập nhật thông tin nhân viên
-        }
+    /* ============= Khoa chấn thương chỉnh hình ============= */
+    function showTraumaRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('trauma-section').classList.remove('hidden');
+    }
+    function goBackFromTrauma() {
+      goBack();
+    }
+    function showTraumaBeds(room) {
+      document.getElementById('trauma-rooms').classList.add('hidden');
+      document.getElementById('trauma-bed-section').classList.remove('hidden');
+      document.getElementById('trauma-bed-header').textContent = room;
+      let bedList = document.getElementById('trauma-bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBedTrauma();
+      }
+    }
+    function goBackToTraumaRooms() {
+      document.getElementById('trauma-bed-section').classList.add('hidden');
+      document.getElementById('trauma-rooms').classList.remove('hidden');
+    }
+    function addBedTrauma() {
+      let bedList = document.getElementById('trauma-bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBedTrauma() {
+      let bedList = document.getElementById('trauma-bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
 
-        function showBeds(roomId) {
-            document.querySelectorAll('.bed-items').forEach(el => el.style.display = 'none');
-            document.getElementById(roomId).style.display = "grid";
-            document.getElementById("sub-items").style.display = "none";
-        }
+    /* ============= Khoa nội thần kinh ============= */
+    function showNeurologyRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('neurology-section').classList.remove('hidden');
+    }
+    function goBackFromNeurology() {
+      goBack();
+    }
+    function showNeurologyBeds(room) {
+      document.getElementById('neurology-rooms').classList.add('hidden');
+      document.getElementById('neurology-bed-section').classList.remove('hidden');
+      document.getElementById('neurology-bed-header').textContent = room;
+      let bedList = document.getElementById('neurology-bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBedNeurology();
+      }
+    }
+    function goBackToNeurologyRooms() {
+      document.getElementById('neurology-bed-section').classList.add('hidden');
+      document.getElementById('neurology-rooms').classList.remove('hidden');
+    }
+    function addBedNeurology() {
+      let bedList = document.getElementById('neurology-bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBedNeurology() {
+      let bedList = document.getElementById('neurology-bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
 
-        function goBackToSubItems() {
-            document.querySelectorAll('.bed-items').forEach(el => el.style.display = 'none');
-            document.getElementById("sub-items").style.display = "grid";
-        }
+    /* ============= Khoa ngoại thần kinh ============= */
+    function showNeurosurgeryRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('neurosurgery-section').classList.remove('hidden');
+    }
+    function goBackFromNeurosurgery() {
+      goBack();
+    }
+    function showNeurosurgeryBeds(room) {
+      document.getElementById('neurosurgery-rooms').classList.add('hidden');
+      document.getElementById('neurosurgery-bed-section').classList.remove('hidden');
+      document.getElementById('neurosurgery-bed-header').textContent = room;
+      let bedList = document.getElementById('neurosurgery-bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBedNeurosurgery();
+      }
+    }
+    function goBackToNeurosurgeryRooms() {
+      document.getElementById('neurosurgery-bed-section').classList.add('hidden');
+      document.getElementById('neurosurgery-rooms').classList.remove('hidden');
+    }
+    function addBedNeurosurgery() {
+      let bedList = document.getElementById('neurosurgery-bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBedNeurosurgery() {
+      let bedList = document.getElementById('neurosurgery-bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
 
-        function goBackToMain() {
-            document.getElementById("sub-items").style.display = "none";
-            document.getElementById("main-items").style.display = "grid";
-            document.getElementById("info-box").style.display = "none";
-        }
-
-        function updateStaffInfo(department, doctors, nurses) {
-            const infoBox = document.getElementById("info-box");
-            infoBox.innerHTML = `
-                <div><strong>${department}</strong></div>
-                <div>Số bác sỹ: ${doctors}</div>
-                <div>Số y tá: ${nurses}</div>
-            `;
-            infoBox.style.display = "block";
-        }
-    </script>
+    /* ============= Khoa hô hấp ============= */
+    function showRespiratoryRooms() {
+      document.getElementById('departments').classList.add('hidden');
+      document.getElementById('respiratory-section').classList.remove('hidden');
+    }
+    function goBackFromRespiratory() {
+      goBack();
+    }
+    function showRespiratoryBeds(room) {
+      document.getElementById('respiratory-rooms').classList.add('hidden');
+      document.getElementById('respiratory-bed-section').classList.remove('hidden');
+      document.getElementById('respiratory-bed-header').textContent = room;
+      let bedList = document.getElementById('respiratory-bed-list');
+      bedList.innerHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        addBedRespiratory();
+      }
+    }
+    function goBackToRespiratoryRooms() {
+      document.getElementById('respiratory-bed-section').classList.add('hidden');
+      document.getElementById('respiratory-rooms').classList.remove('hidden');
+    }
+    function addBedRespiratory() {
+      let bedList = document.getElementById('respiratory-bed-list');
+      let newBed = document.createElement('div');
+      let bedNumber = bedList.children.length + 1;
+      newBed.dataset.number = bedNumber;
+      newBed.dataset.status = "Trống";
+      newBed.textContent = "Giường " + bedNumber + " - " + newBed.dataset.status;
+      newBed.className = 'box';
+      newBed.addEventListener("click", function() {
+        cycleStatusGeneric(newBed);
+      });
+      bedList.appendChild(newBed);
+    }
+    function removeLastBedRespiratory() {
+      let bedList = document.getElementById('respiratory-bed-list');
+      if (bedList.children.length > 0) {
+        bedList.removeChild(bedList.lastChild);
+      } else {
+        alert("Không có giường nào để xóa!");
+      }
+    }
+  </script>
 </head>
 <body>
-    <!-- Trang chính -->
-    <div class="grid-container" id="main-items">
-        <div class="grid-item" onclick="toggleSubItems('Khoa cấp cứu')">Khoa cấp cứu</div>
-        <div class="grid-item" onclick="toggleSubItems('Khoa hồi sức')">Khoa hồi sức</div>
-        <div class="grid-item" onclick="toggleSubItems('Khoa chấn thương chỉnh hình')">Khoa chấn thương chỉnh hình</div>
-        <div class="grid-item" onclick="toggleSubItems('Khoa nội thần kinh')">Khoa nội thần kinh</div>
-        <div class="grid-item" onclick="toggleSubItems('Khoa ngoại thần kinh')">Khoa ngoại thần kinh</div>
-        <div class="grid-item" onclick="toggleSubItems('Khoa hô hấp')">Khoa hô hấp</div>
-    </div>
+  <!-- Danh sách khoa -->
+  <div id="departments" class="grid">
+    <div class="box" onclick="showEmergencyRooms()">Khoa cấp cứu</div>
+    <div class="box" onclick="showIntensiveCareRooms()">Khoa hồi sức</div>
+    <div class="box" onclick="showTraumaRooms()">Khoa chấn thương chỉnh hình</div>
+    <div class="box" onclick="showNeurologyRooms()">Khoa nội thần kinh</div>
+    <div class="box" onclick="showNeurosurgeryRooms()">Khoa ngoại thần kinh</div>
+    <div class="box" onclick="showRespiratoryRooms()">Khoa hô hấp</div>
+  </div>
 
-    <!-- Danh sách phòng cấp cứu -->
-    <div id="sub-items" class="grid-container" style="display: none;">
-        <button class="back-button" onclick="goBackToMain()">⬅</button>
-        <div class="grid-item" onclick="showBeds('beds-emergency-1')">Cấp cứu 1</div>
-        <div class="grid-item" onclick="showBeds('beds-emergency-2')">Cấp cứu 2</div>
-        <div class="grid-item" onclick="showBeds('beds-emergency-3')">Cấp cứu 3</div>
-        <div class="grid-item" onclick="showBeds('beds-emergency-4')">Cấp cứu 4</div>
-    </div>
+  <!-- ============= Phần hiển thị các khoa ============= -->
 
-    <!-- Danh sách giường cho từng phòng -->
-    <div id="beds-emergency-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa cấp cứu -->
+  <div id="emergency-section" class="hidden">
+    <div class="back-button" onclick="goBack()">&#8592;</div>
+    <div class="header">Khoa cấp cứu</div>
+    <div class="info">
+      Số bác sỹ: 10<br>
+      Số y tá: 20
     </div>
+    <div id="emergency-rooms" class="sub-grid">
+      <div class="box" onclick="showBeds('Phòng cấp cứu 1')">Phòng cấp cứu 1</div>
+      <div class="box" onclick="showBeds('Phòng cấp cứu 2')">Phòng cấp cứu 2</div>
+      <div class="box" onclick="showBeds('Phòng cấp cứu 3')">Phòng cấp cứu 3</div>
+      <div class="box" onclick="showBeds('Phòng cấp cứu 4')">Phòng cấp cứu 4</div>
+    </div>
+  </div>
 
-    <div id="beds-emergency-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa cấp cứu -->
+  <div id="bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToRooms()">&#8592;</div>
+    <div id="bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBed()">Thêm giường</button>
+      <button onclick="removeLastBed()">Xóa giường </button>
     </div>
+    <div id="bed-list" class="sub-grid"></div>
+  </div>
 
-    <div id="beds-emergency-3" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa hồi sức -->
+  <div id="intensive-section" class="hidden">
+    <div class="back-button" onclick="goBackFromIntensive()">&#8592;</div>
+    <div class="header">Khoa hồi sức</div>
+    <div class="info">
+      Số bác sỹ: 10<br>
+      Số y tá: 20
     </div>
+    <div id="intensive-rooms" class="sub-grid">
+      <div class="box" onclick="showIntensiveBeds('Phòng Hồi sức cấp cứu')">Phòng Hồi sức cấp cứu</div>
+      <div class="box" onclick="showIntensiveBeds('Phòng Hồi sức tích cực')">Phòng Hồi sức tích cực</div>
+      <div class="box" onclick="showIntensiveBeds('Phòng Hồi sức sau phẫu thuật')">Phòng Hồi sức sau phẫu thuật</div>
+      <div class="box" onclick="showIntensiveBeds('Phòng Hồi sức nội khoa')">Phòng Hồi sức nội khoa</div>
+    </div>
+  </div>
 
-    <div id="beds-emergency-4" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa hồi sức -->
+  <div id="intensive-bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToIntensiveRooms()">&#8592;</div>
+    <div id="intensive-bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBedIntensive()">Thêm giường</button>
+      <button onclick="removeLastBedIntensive()">Xóa giường </button>
     </div>
+    <div id="intensive-bed-list" class="sub-grid"></div>
+  </div>
 
-    <!-- Khoa hồi sức -->
-    <div id="beds-recovery-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa chấn thương chỉnh hình -->
+  <div id="trauma-section" class="hidden">
+    <div class="back-button" onclick="goBackFromTrauma()">&#8592;</div>
+    <div class="header">Khoa chấn thương chỉnh hình</div>
+    <div class="info">
+      Số bác sỹ: 8<br>
+      Số y tá: 15
     </div>
+    <div id="trauma-rooms" class="sub-grid">
+      <div class="box" onclick="showTraumaBeds('Phòng Chấn thương 1')">Phòng Cấp cứu Chấn thương</div>
+      <div class="box" onclick="showTraumaBeds('Phòng Chấn thương 2')">Phòng Phẫu thuật </div>
+      <div class="box" onclick="showTraumaBeds('Phòng Chấn thương 3')">Phòng Hậu phẫu</div>
+      <div class="box" onclick="showTraumaBeds('Phòng Chấn thương 4')">Phòng Phục hồi chức năng</div>
+    </div>
+  </div>
 
-    <div id="beds-recovery-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa chấn thương chỉnh hình -->
+  <div id="trauma-bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToTraumaRooms()">&#8592;</div>
+    <div id="trauma-bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBedTrauma()">Thêm giường</button>
+      <button onclick="removeLastBedTrauma()">Xóa giường </button>
     </div>
+    <div id="trauma-bed-list" class="sub-grid"></div>
+  </div>
 
-    <!-- Khoa chấn thương chỉnh hình -->
-    <div id="beds-orthopedic-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa nội thần kinh -->
+  <div id="neurology-section" class="hidden">
+    <div class="back-button" onclick="goBackFromNeurology()">&#8592;</div>
+    <div class="header">Khoa nội thần kinh</div>
+    <div class="info">
+      Số bác sỹ: 9<br>
+      Số y tá: 18
     </div>
+    <div id="neurology-rooms" class="sub-grid">
+      <div class="box" onclick="showNeurologyBeds('Phòng Nội thần kinh 1')">Phòng Khám Nội Thần Kinh</div>
+      <div class="box" onclick="showNeurologyBeds('Phòng Nội thần kinh 2')">Phòng Điều Trị Nội Thần Kinh</div>
+      <div class="box" onclick="showNeurologyBeds('Phòng Nội thần kinh 3')">Phòng Chăm Sóc Bệnh Nhân Đột Quỵ</div>
+      <div class="box" onclick="showNeurologyBeds('Phòng Nội thần kinh 4')">Phòng Điện Não - Chẩn Đoán Hình Ảnh Thần Kinh</div>
+    </div>
+  </div>
 
-    <div id="beds-orthopedic-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa nội thần kinh -->
+  <div id="neurology-bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToNeurologyRooms()">&#8592;</div>
+    <div id="neurology-bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBedNeurology()">Thêm giường</button>
+      <button onclick="removeLastBedNeurology()">Xóa giường </button>
     </div>
+    <div id="neurology-bed-list" class="sub-grid"></div>
+  </div>
 
-    <!-- Khoa nội thần kinh -->
-    <div id="beds-neurology-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa ngoại thần kinh -->
+  <div id="neurosurgery-section" class="hidden">
+    <div class="back-button" onclick="goBackFromNeurosurgery()">&#8592;</div>
+    <div class="header">Khoa ngoại thần kinh</div>
+    <div class="info">
+      Số bác sỹ: 7<br>
+      Số y tá: 14
     </div>
+    <div id="neurosurgery-rooms" class="sub-grid">
+      <div class="box" onclick="showNeurosurgeryBeds('Phòng Ngoại thần kinh 1')">Phòng Hậu phẫu Ngoại Thần Kinh</div>
+      <div class="box" onclick="showNeurosurgeryBeds('Phòng Ngoại thần kinh 2')">Phòng Điều trị Ngoại Thần Kinh</div>
+      <div class="box" onclick="showNeurosurgeryBeds('Phòng Ngoại thần kinh 3')">Phòng Hồi sức Ngoại Thần Kinh</div>
+      <div class="box" onclick="showNeurosurgeryBeds('Phòng Ngoại thần kinh 4')">Phòng Chăm sóc đặc biệt Ngoại Thần Kinh</div>
+    </div>
+  </div>
 
-    <div id="beds-neurology-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa ngoại thần kinh -->
+  <div id="neurosurgery-bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToNeurosurgeryRooms()">&#8592;</div>
+    <div id="neurosurgery-bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBedNeurosurgery()">Thêm giường</button>
+      <button onclick="removeLastBedNeurosurgery()">Xóa giường </button>
     </div>
+    <div id="neurosurgery-bed-list" class="sub-grid"></div>
+  </div>
 
-    <!-- Khoa ngoại thần kinh -->
-    <div id="beds-neurosurgery-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Khoa hô hấp -->
+  <div id="respiratory-section" class="hidden">
+    <div class="back-button" onclick="goBackFromRespiratory()">&#8592;</div>
+    <div class="header">Khoa hô hấp</div>
+    <div class="info">
+      Số bác sỹ: 8<br>
+      Số y tá: 16
     </div>
+    <div id="respiratory-rooms" class="sub-grid">
+      <div class="box" onclick="showRespiratoryBeds('Phòng Hô hấp 1')">Phòng Nội soi Hô hấp</div>
+      <div class="box" onclick="showRespiratoryBeds('Phòng Hô hấp 2')">Phòng Thăm dò Chức năng Hô hấp</div>
+      <div class="box" onclick="showRespiratoryBeds('Phòng Hô hấp 3')">Phòng Điều trị Bệnh Phổi Mạn tính</div>
+      <div class="box" onclick="showRespiratoryBeds('Phòng Hô hấp 4')">Phòng Cách ly Lao và Nhiễm Khuẩn Hô hấp</div>
+    </div>
+  </div>
 
-    <div id="beds-neurosurgery-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
+  <!-- Phần giường của Khoa hô hấp -->
+  <div id="respiratory-bed-section" class="hidden bed-section">
+    <div class="back-button" onclick="goBackToRespiratoryRooms()">&#8592;</div>
+    <div id="respiratory-bed-header" class="header"></div>
+    <div class="bed-actions">
+      <button onclick="addBedRespiratory()">Thêm giường</button>
+      <button onclick="removeLastBedRespiratory()">Xóa giường </button>
     </div>
-
-    <!-- Khoa hô hấp -->
-    <div id="beds-respiratory-1" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
-    </div>
-
-    <div id="beds-respiratory-2" class="grid-container bed-items" style="display: none;">
-        <button class="back-button" onclick="goBackToSubItems()">⬅</button>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 1</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 2</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 3</div>
-        <div class="bed-item" onclick="changeBedColor(this)"><i class="fas fa-bed"></i><br>Giường 4</div>
-    </div>
-
-    <!-- Hiển thị thông tin nhân viên -->
-    <div id="info-box" class="info-box" style="display: none;">
-        <!-- Nội dung sẽ được cập nhật bằng JavaScript -->
-    </div>
+    <div id="respiratory-bed-list" class="sub-grid"></div>
+  </div>
+  
 </body>
 </html>
