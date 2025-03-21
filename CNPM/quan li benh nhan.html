@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Bệnh Nhân</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column; /* Chuyển toàn bộ layout sang dạng cột */
+}
+
+.navbar {
+    width: 100%;
+    background: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 20px;
+    text-align: left ;
+}
+
+.navbar button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+.navbar button:hover {
+    background: #555;
+}
+
+/* Submenu */
+.menu-item {
+    position: relative;
+}
+.menu-item button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.menu-item button:hover {
+    background: #555;
+}
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #444;
+    width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.submenu button {
+    width: 100%;
+    background: #555;
+    padding: 8px;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+}
+
+.submenu button:hover {
+    background: #666;
+}
+
+.container {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+table {
+    width: 80%; /* Chiếm 80% chiều rộng trang */
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px; /* Thêm khoảng cách bên trong ô */
+    text-align: center;
+    border: 1px solid black;
+    min-width: 100px; /* Đặt độ rộng tối thiểu cho mỗi cột */
+}
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h2>Quản Lý Bệnh Nhân</h2>
+        <button onclick="showContent('patient-registration')">Đăng ký bệnh nhân mới</button>
+        <div class="menu-item" onclick="toggleSubmenu()">
+            <Button>Bệnh nhân</Button>
+            <div id="submenu" class="submenu">
+                <button onclick="showContent('patient-search')">Tra cứu bệnh nhân</button>
+                <button onclick="showContent('patient-records')">Hồ sơ bệnh án</button>
+            </div>
+        </div>
+        <button onclick="showContent('medical-history')">Lịch sử khám bệnh</button>
+        <button onclick="showContent('patient-list')">Danh sách bệnh nhân</button>
+    </div>    
+    <div class="container">
+        <div id="patient-registration" class="content-section" style="display: none;">
+            <h1>Đăng Ký Bệnh Nhân Mới</h1>
+            <input id="patient-name" placeholder="Họ và tên">
+            <input id="patient-phone" placeholder="Số điện thoại">
+            <input id="patient-age" placeholder="Tuổi">
+            <input id="patient-cccd" placeholder="CCCD">
+            <select id="patient-gender">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+            <input id="patient-history" placeholder="Tiền sử bệnh">
+            <br><button onclick="confirmPatientRegistration()">Xác nhận</button>
+            <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
+        </div>
+        <div id="patient-list" class="content-section" style="display: none;">
+            <h1>Danh Sách Bệnh Nhân</h1>
+            <table border="1" id="patient-table" style="width:100%; border-collapse: collapse; text-align: center;">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã Bệnh Nhân</th>
+            <th>Họ Và Tên</th>
+            <th>Số Điện Thoại</th>
+            <th>Giới Tính</th>
+            <th>Tuổi</th>
+            <th>CCCD</th>
+            <th>Tiền Sử Bệnh</th>
+        </tr>
+    </thead>
+    <tbody id="patient-list-content">
+    </tbody>
+</table>
+        </div>
+        <div id="patient-search" class="content-section" style="display: none;">
+            <h1>Tra Cứu Bệnh Nhân</h1>
+            <input id="search-name" placeholder="Nhập tên bệnh nhân">
+<input id="search-id" placeholder="Nhập mã bệnh nhân">
+<input id="search-cccd" placeholder="Nhập CCCD">
+<br><button onclick="searchPatient()">Tìm kiếm</button>
+
+<table border="1" id="search-result-table" style="width:100%; border-collapse: collapse; text-align: center;">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã Bệnh Nhân</th>
+            <th>Họ Và Tên</th>
+            <th>Số Điện Thoại</th>
+            <th>Giới Tính</th>
+            <th>Tuổi</th>
+            <th>CCCD</th>
+            <th>Tiền Sử Bệnh</th>
+        </tr>
+    </thead>
+    <tbody id="search-result-content"></tbody>
+</table>
+        </div>
+        
+        <div id="patient-records" class="content-section" style="display: none;">
+            <h2>Hồ sơ bệnh án</h2>
+
+<form id="hoSoForm">
+    Tên bệnh nhân: <input type="text" id="tenBenhNhan"><br>
+    Tuổi: <input type="number" id="tuoi"><br>
+    Mã bệnh nhân: <input type="text" id="maBenhNhan"><br>
+    Chẩn đoán: <input type="text" id="chanDoan"><br>
+    
+    Xét nghiệm: 
+    <input type="checkbox" name="xetNghiem" value="Mắt"> Mắt
+    <input type="checkbox" name="xetNghiem" value="Tai"> Tai
+    <input type="checkbox" name="xetNghiem" value="Mũi"> Mũi<br>
+    
+    Kết quả xét nghiệm: <input type="text" id="ketQuaXetNghiem"><br>
+    Kết luận bác sĩ: <input type="text" id="ketLuan"><br>
+    
+    <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button>
+</form>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Tên bệnh nhân</th> <th>Tuổi</th> <th>Mã bệnh nhân</th>
+            <th>Chẩn đoán</th>
+            <th>Xét nghiệm</th>
+            <th>Kết quả xét nghiệm</th>
+            <th>Kết luận bác sĩ</th>
+        </tr>
+    </thead>
+    <tbody id="danhSachHoSo"></tbody>
+</table>
+
+<button onclick="inBenhAn()">In bệnh án</button>
+
+        </div>
+        <div id="medical-history" class="content-section" style="display: none;">
+            <h1>Lịch Sử Khám Bệnh</h1>
+            <input id="history-patient-id" placeholder="Mã bệnh nhân">
+            <input id="history-date" type="date">
+            <input id="history-diagnosis" placeholder="Chẩn đoán">
+            <input id="history-treatment" placeholder="Điều trị">
+            <button onclick="addPatientHistory()">Thêm</button>
+            <h1>Danh sách </h1>
+            <table border="1" id="history-table" style="width:100%; border-collapse: collapse; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Bệnh Nhân</th>
+                        <th>Ngày Khám</th>
+                        <th>Chẩn Đoán</th>
+                        <th>Điều Trị</th>
+                    </tr>
+                </thead>
+                <tbody id="history-list">
+                </tbody>
+            </table>
+            
+        </div>
+        <div id="default" class="content-section">
+            <h1>Quản Lý Bệnh Nhân</h1>
+            <p>Chọn một chức năng từ menu để thao tác.</p>
+        </div>
+    </div>
+    <script>
+       document.querySelector(".menu-item").addEventListener("mouseover", function() {
+    document.getElementById("submenu").style.display = "block";
+});
+
+document.querySelector(".menu-item").addEventListener("mouseout", function() {
+    document.getElementById("submenu").style.display = "none";
+});
+
+function showContent(section) {
+    alert("Hiển thị nội dung: " + section);
+}
+    </script>
+    <script>
+        
+        let patients = [];
+        let medicalHistory = [];
+        let danhSachHoSo = [];
+
+function luuHoSo() {
+    let tenBenhNhan = document.getElementById("tenBenhNhan").value;
+    let tuoi = document.getElementById("tuoi").value;
+    let maBenhNhan = document.getElementById("maBenhNhan").value;
+    let chanDoan = document.getElementById("chanDoan").value;
+    
+    // Lấy danh sách các xét nghiệm được chọn
+    let xetNghiemElements = document.querySelectorAll('input[name="xetNghiem"]:checked');
+    let xetNghiem = Array.from(xetNghiemElements).map(e => e.value).join(", ");
+    
+    let ketQuaXetNghiem = document.getElementById("ketQuaXetNghiem").value;
+    let ketLuan = document.getElementById("ketLuan").value;
+
+    // Thêm hồ sơ vào danh sách
+    danhSachHoSo.push({
+        tenBenhNhan,
+        tuoi,
+        maBenhNhan,
+        chanDoan,
+        xetNghiem,
+        ketQuaXetNghiem,
+        ketLuan
+    });
+alert('Thêm bệnh án thành công ');
+    hienThiDanhSach();
+    document.getElementById("tenBenhNhan").value = "";
+    document.getElementById("tuoi").value = "";
+    document.getElementById("maBenhNhan").value = "";
+    document.getElementById("chanDoan").value = "";
+    document.querySelectorAll('input[name="xetNghiem"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaXetNghiem").value = "";
+    document.getElementById("ketLuan").value = "";
+}
+
+function hienThiDanhSach() {
+    let tbody = document.getElementById("danhSachHoSo");
+    tbody.innerHTML = "";
+    danhSachHoSo.forEach((hs, index) => {
+        let row = `<tr>
+            <td>${hs.tenBenhNhan}</td>
+            <td>${hs.tuoi}</td>
+            <td>${hs.maBenhNhan}</td>
+            <td>${hs.chanDoan}</td>
+            <td>${hs.xetNghiem}</td>
+            <td>${hs.ketQuaXetNghiem}</td>
+            <td>${hs.ketLuan}</td>
+            <td><button onclick="inBenhAn(${index})">In</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+
+function inBenhAn(index) {
+    let hs = danhSachHoSo[index];
+
+    let content = `
+        <h2>Hồ sơ bệnh án</h2>
+        <p><strong>Tên bệnh nhân:</strong> ${hs.tenBenhNhan}</p>
+        <p><strong>Tuổi:</strong> ${hs.tuoi}</p>
+        <p><strong>Mã bệnh nhân:</strong> ${hs.maBenhNhan}</p>
+        <p><strong>Chẩn đoán:</strong> ${hs.chanDoan}</p>
+        <p><strong>Xét nghiệm:</strong> ${hs.xetNghiem}</p>
+        <p><strong>Kết quả xét nghiệm:</strong> ${hs.ketQuaXetNghiem}</p>
+        <p><strong>Kết luận bác sĩ:</strong> ${hs.ketLuan}</p>
+    `;
+
+    let newWindow = window.open("", "", "width=800,height=600");
+    newWindow.document.write(content);
+    newWindow.document.close();
+    newWindow.print();
+}
+        function showContent(sectionID) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionID).style.display = 'block';
+        }
+
+        function generatePatientID() {
+            return 'BN' + Math.floor(100000 + Math.random() * 900000);
+        }
+
+        function confirmPatientRegistration() {
+            let name = document.getElementById('patient-name').value.trim();
+            let phone = document.getElementById('patient-phone').value.trim();
+            let gender = document.getElementById('patient-gender').value;
+            let age = document.getElementById('patient-age').value.trim();
+            let cccd = document.getElementById('patient-cccd').value.trim();
+            let history = document.getElementById('patient-history').value.trim();
+            
+            if (!name || !phone || !gender || !age || !cccd) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            
+            let patientID = generatePatientID();
+            patients.push({ id: patientID, name, phone, gender, age, cccd, history });
+            alert(`Bệnh nhân ${name} đã được đăng ký với mã ${patientID}`);
+            updatePatientList();
+            showContent('patient-list');
+            document.getElementById('patient-name').value = '';
+    document.getElementById('patient-phone').value = '';
+    document.getElementById('patient-gender').value = 'Nam';
+    document.getElementById('patient-age').value = '';
+    document.getElementById('patient-cccd').value = '';
+    document.getElementById('patient-history').value = '';
+        }
+        function deletePatient(patientID) {
+    let confirmDelete = confirm("Bạn có chắc chắn muốn xóa bệnh nhân này không?");
+    if (confirmDelete) {
+        patients = patients.filter(p => p.id !== patientID); // Xóa bệnh nhân khỏi danh sách
+        updatePatientList(); // Cập nhật lại danh sách hiển thị
+    }
+}
+
+        function updatePatientList() {
+    let tableBody = document.getElementById("patient-list-content");
+    tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+    patients.forEach((p, i) => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.phone}</td>
+            <td>${p.gender}</td>
+            <td>${p.age}</td>
+            <td>${p.cccd}</td>
+            <td>${p.history}</td>
+            <td><button onclick="deletePatient('${p.id}')">Xóa</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
+        function addPatientHistory() {
+            let patientID = document.getElementById('history-patient-id').value.trim();
+            let date = document.getElementById('history-date').value;
+            let diagnosis = document.getElementById('history-diagnosis').value.trim();
+            let treatment = document.getElementById('history-treatment').value.trim();
+            
+            if (!patientID || !date || !diagnosis || !treatment) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            
+            medicalHistory.push({ id: patientID, date, diagnosis, treatment });
+            alert('Thêm thông tin thành công');
+            updateHistoryList();
+            document.getElementById('history-patient-id').value = '';
+            document.getElementById('history-date').value = '';
+            document.getElementById('history-diagnosis').value = '';
+            document.getElementById('history-treatment').value = '';
+        }
+
+        function updateHistoryList() {
+    let tableBody = document.getElementById("history-list");
+    tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+    medicalHistory.forEach((entry, index) => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${entry.id}</td>
+            <td>${entry.date}</td>
+            <td>${entry.diagnosis}</td>
+            <td>${entry.treatment}</td>
+            <td><button onclick="deleteHistory(${index})">Xóa</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+        function cancelPatientRegistration() {
+    let confirmCancel = confirm("Bạn có chắc chắn muốn hủy đăng ký không? Thông tin nhập sẽ bị xóa.");
+    if (confirmCancel) {
+        // Xóa dữ liệu trong form
+        document.getElementById('patient-name').value = '';
+        document.getElementById('patient-phone').value = '';
+        document.getElementById('patient-gender').value = 'Nam';
+        document.getElementById('patient-age').value = '';
+        document.getElementById('patient-cccd').value = '';
+        document.getElementById('patient-history').value = '';
+
+        // Quay lại màn hình chính hoặc danh sách bệnh nhân
+        showContent('default'); 
+    }
+}
+function deleteHistory(index) {
+    let confirmDelete = confirm("Bạn có chắc muốn xóa lịch sử khám bệnh này?");
+    if (confirmDelete) {
+        medicalHistory.splice(index, 1);
+        updateHistoryList();
+    }
+}
+function searchPatient() {
+    let name = document.getElementById("search-name").value.trim().toLowerCase();
+    let id = document.getElementById("search-id").value.trim().toLowerCase();
+    let cccd = document.getElementById("search-cccd").value.trim().toLowerCase();
+
+    let filteredPatients = patients.filter(p => 
+        (name === "" || p.name.toLowerCase().includes(name)) &&
+        (id === "" || p.id.toLowerCase().includes(id)) &&
+        (cccd === "" || p.cccd.toLowerCase().includes(cccd))
+    );
+
+    let tableBody = document.getElementById("search-result-content");
+    tableBody.innerHTML = "";
+
+    filteredPatients.forEach((p, i) => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.phone}</td>
+            <td>${p.gender}</td>
+            <td>${p.age}</td>
+            <td>${p.cccd}</td>
+            <td>${p.history}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    if (filteredPatients.length === 0) {
+        alert("Không tìm thấy bệnh nhân nào.");
+    }
+}
+
+    </script>
+</body>
+</html>
