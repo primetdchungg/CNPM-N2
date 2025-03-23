@@ -165,7 +165,7 @@ th, td {
 <input id="search-id" placeholder="Nhập mã bệnh nhân">
 <input id="search-cccd" placeholder="Nhập CCCD">
 <br><button onclick="searchPatient()">Tìm kiếm</button>
-
+<button onclick ="cancelsearchPatient()">Hủy tìm kiếm </button>
 <table border="1" id="search-result-table" style="width:100%; border-collapse: collapse; text-align: center;">
     <thead>
         <tr>
@@ -471,15 +471,21 @@ function inBenhAn(index) {
         function cancelPatientRegistration() {
     let confirmCancel = confirm("Bạn có chắc chắn muốn hủy đăng ký không? Thông tin nhập sẽ bị xóa.");
     if (confirmCancel) {
-        // Xóa dữ liệu trong form
         document.getElementById('patient-name').value = '';
         document.getElementById('patient-phone').value = '';
         document.getElementById('patient-gender').value = 'Nam';
         document.getElementById('patient-age').value = '';
         document.getElementById('patient-cccd').value = '';
         document.getElementById('patient-history').value = '';
-
-        // Quay lại màn hình chính hoặc danh sách bệnh nhân
+        showContent('default'); 
+    }
+}
+function cancelsearchPatient() {
+    let confirmCancel = confirm("Bạn có chắc chắn muốn hủy tìm kiếm không?");
+    if (confirmCancel) {
+        document.getElementById('search-name').value = '';
+        document.getElementById('search-id').value = '';
+        document.getElementById('search-cccd').value = '';
         showContent('default'); 
     }
 }
