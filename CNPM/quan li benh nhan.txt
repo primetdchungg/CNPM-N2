@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column; /* Chuyển toàn bộ layout sang dạng cột */
 }
+
 .navbar {
     width: 100%;
     background: #333;
@@ -29,6 +30,7 @@
     font-size: 20px;
     text-align: left ;
 }
+
 .navbar button {
     background: #444;
     color: white;
@@ -55,6 +57,7 @@
     margin: 0 5px;
     border-radius: 5px;
 }
+
 .menu-item button:hover {
     background: #555;
 }
@@ -164,8 +167,10 @@ th, td {
             <input id="search-name" placeholder="Nhập tên bệnh nhân">
 <input id="search-id" placeholder="Nhập mã bệnh nhân">
 <input id="search-cccd" placeholder="Nhập CCCD">
+<br>
 <br><button onclick="searchPatient()">Tìm kiếm</button>
 <button onclick ="cancelsearchPatient()">Hủy tìm kiếm </button>
+<br>
 <table border="1" id="search-result-table" style="width:100%; border-collapse: collapse; text-align: center;">
     <thead>
         <tr>
@@ -187,6 +192,7 @@ th, td {
             <h2>Hồ sơ bệnh án</h2>
 
 <form id="hoSoForm">
+    Ngày khám: <input type="date" id="ngaykham">
     Tên bệnh nhân: <input type="text" id="tenBenhNhan">
     Tuổi: <input type="number" id="tuoi">
     Mã bệnh nhân: <input type="text" id="maBenhNhan">
@@ -212,12 +218,14 @@ th, td {
     Kết quả nội soi: <input type="text" id="ketQuaNoiSoi"> 
     Kết luận bác sĩ: <input type="text" id="ketLuan">
     Chỉ định điều trị: <input type="text" id="chiDinh"><br>
-    <br> <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button><br>
+    <br> <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button>
+    <button type="button" onclick ="huyHoso()">Hủy </button><br>
 </form>
 
 <br> <table border="1">
     <thead>
         <tr>
+            <th>Ngày khám </th>
             <th>Tên bệnh nhân</th> <th>Tuổi</th> <th>Mã bệnh nhân</th>
             <th>Chẩn đoán</th>
             <th>Xét nghiệm</th>
@@ -230,18 +238,15 @@ th, td {
     </thead>
     <tbody id="danhSachHoSo"></tbody>
 </table><br>
-
-<button onclick="inBenhAn()">In bệnh án</button>
-
         </div>
         <div id="medical-history" class="content-section" style="display: none;">
             <h1>Lịch Sử Khám Bệnh</h1>
             <input id="history-patient-id" placeholder="Mã bệnh nhân">
             <input id="history-date" type="date">
             <input id="history-diagnosis" placeholder="Chẩn đoán">
-            <input id="history-treatment" placeholder="Điều trị">
+            <input id="history-treatment" placeholder="Điều trị"><br>
             <button onclick="addPatientHistory()">Thêm</button>
-            <h1>Danh sách </h1>
+           <br> <h1>Danh sách </h1>
             <table border="1" id="history-table" style="width:100%; border-collapse: collapse; text-align: center;">
                 <thead>
                     <tr>
@@ -282,6 +287,7 @@ function showContent(section) {
         let danhSachHoSo = [];
 
 function luuHoSo() {
+    let ngaykham =document.getElementById("ngaykham").value;
     let tenBenhNhan = document.getElementById("tenBenhNhan").value;
     let tuoi = document.getElementById("tuoi").value;
     let maBenhNhan = document.getElementById("maBenhNhan").value;
@@ -295,6 +301,7 @@ function luuHoSo() {
     let ketLuan = document.getElementById("ketLuan").value;  
     let chiDinh = document.getElementById("chiDinh").value; 
     danhSachHoSo.push({
+        ngaykham,
         tenBenhNhan,
         tuoi,
         maBenhNhan,
@@ -308,6 +315,7 @@ function luuHoSo() {
     });
 alert('Thêm bệnh án thành công ');
     hienThiDanhSach();
+    document.getElementById("ngaykham").value="";
     document.getElementById("tenBenhNhan").value = "";
     document.getElementById("tuoi").value = "";
     document.getElementById("maBenhNhan").value = "";
@@ -325,6 +333,7 @@ function hienThiDanhSach() {
     tbody.innerHTML = "";
     danhSachHoSo.forEach((hs, index) => {
         let row = `<tr>
+            <td>${hs.ngaykham}</td>
             <td>${hs.tenBenhNhan}</td>
             <td>${hs.tuoi}</td>
             <td>${hs.maBenhNhan}</td>
@@ -347,6 +356,7 @@ function inBenhAn(index) {
 
     let content = `
         <h2>Hồ sơ bệnh án</h2>
+        <p><strong>Ngày khám:</strong> ${hs.ngaykham}</p>
         <p><strong>Tên bệnh nhân:</strong> ${hs.tenBenhNhan}</p>
         <p><strong>Tuổi:</strong> ${hs.tuoi}</p>
         <p><strong>Mã bệnh nhân:</strong> ${hs.maBenhNhan}</p>
@@ -428,8 +438,6 @@ function inBenhAn(index) {
         tableBody.appendChild(row);
     });
 }
-
-
         function addPatientHistory() {
             let patientID = document.getElementById('history-patient-id').value.trim();
             let date = document.getElementById('history-date').value;
@@ -440,7 +448,6 @@ function inBenhAn(index) {
                 alert('Vui lòng nhập đầy đủ thông tin!');
                 return;
             }
-            
             medicalHistory.push({ id: patientID, date, diagnosis, treatment });
             alert('Thêm thông tin thành công');
             updateHistoryList();
@@ -486,7 +493,21 @@ function cancelsearchPatient() {
         document.getElementById('search-name').value = '';
         document.getElementById('search-id').value = '';
         document.getElementById('search-cccd').value = '';
-        showContent('default'); 
+    }
+}
+function huyHoso() {
+    let confirmCancel = confirm("Bạn có chắc chắn muốn hủy hồ sơ này không? Thông tin nhập sẽ bị xóa.");
+    if (confirmCancel) {
+        document.getElementById("tenBenhNhan").value = "";
+    document.getElementById("tuoi").value = "";
+    document.getElementById("maBenhNhan").value = "";
+    document.getElementById("chanDoan").value = "";
+    document.querySelectorAll('input[name="xetNghiem"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaXetNghiem").value = "";
+    document.querySelectorAll('input[name="noiSoi"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaNoiSoi").value = "";
+    document.getElementById("ketLuan").value = "";
+    document.getElementById("chiDinh").value = "";
     }
 }
 function deleteHistory(index) {
