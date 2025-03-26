@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bệnh viện A</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/patient.css">
+</head>
+<body>
+    <div class="header" id="navbar-header">
+        <div class="navbar-tren">
+            <div class="navbar-tren-container">
+                <a href="./index.html"><img src="picture/navbarlogosmall.png" alt=""></a>
+                <div class="navbar-tren-tien-ich">
+                    <div  class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-bar-input">
+                        <i class="bi bi-search fs-1"></i>
+                    </div>
+                    <div id="User_name">
+                        <i id="User" onclick="CongDangnhap()" class="bi bi-person-circle fs-1 ms-3"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="navbar-duoi">
+            <div class="navbar-duoi-container container">
+                <a href="./index.html"><img src="picture/navbarlogosmall.png" alt=""></a>
+                <div class="navbar-duoi-line-container">
+                    <img src="picture/navbarLine.png" alt="" class="navbarDuoiLine">
+                </div>
+                <div class="cat-set">
+                    <ul class="cat-set">
+                        <li class="sub-menu-parent">
+                            <a href="index.html"><p class="cat-set-title khcn-title">Trang chủ</p></a>
+                        <li class="sub-menu-parent">
+                            <a href="patient_management.html"><p class="cat-set-title xa-hoi-title">Quản lí bệnh nhân</p></a>
+                            <div class="drop-down-menu">
+                                <ul class="sub-menu">
+                                    <a href="patient_management.html"><li class="sub-menu-button">Đăng kí</li></a>
+                                    <a href="patient_management.html"><li class="sub-menu-button">Tra cứu bệnh nhân</li></a>
+                                    <a href="patient_management.html"><li class="sub-menu-button">Quản lí hồ sơ bệnh án</li></a>
+                                    <a href="patient_management.html"><li Class="sub-menu-button"> Lịch sử khám</li></a>
+                                </ul>
+                            </div>
+                        </li>
+ 
+
+                        <li class="sub-menu-parent">
+                            <a href="medical_examination.html"><p class="cat-set-title khcn-title">Khám chữa bệnh</p></a>
+
+                            <div class="drop-down-menu">
+                                <ul class="sub-menu">
+                                    <a href="medical_examination.html"><li class="sub-menu-button">Chẩn đoán lâm sàng</li></a>
+                                    <a href="medical_examination.html"><li class="sub-menu-button">Kết quả xét nghiệm</li></a>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sub-menu-parent">
+                            <a href="room_bed_management.html"><p class="cat-set-title suc-khoe-title">Quản lí khoa và giường bệnh</p></a>
+
+
+                        <li class="sub-menu-parent">
+                            <a href="pharmacy_management.html"><p class="cat-set-title the-thao-title">Kho thuốc</p></a>
+
+                            <div class="drop-down-menu">
+                                <ul class="sub-menu">
+                                    <a href="pharmacy_management.html"><li class="sub-menu-button">Tìm kiếm thuốc</li></a>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sub-menu-parent">
+                            <a href="hr_management.html"><p class="cat-set-title giai-tri-title">Nhân sự</p></a>
+            </div>
+            <div id="CongDangnhap">
+                <div style="width: 450px;height: 650px;background-color: white;margin-left: 35%;margin-top: 22px;">
+                    <div style="display: flex;border-bottom: 1px solid gray;">
+                        <button onclick="DongDangnhap()" type="button" class="close closs-css" aria-label="Close" style="background-color: white;font-size: 38px;right: 10px; top: 10px ;border: none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div style="display: flex;font-size: 25px;text-align: center;line-height: 80px;font-weight: bolder;">
+                        <div id="txt_dn" onclick="switchToLogin()" style="border-bottom: 2px solid #B32A45;width: 180px;margin-left: 45px;">Đăng nhập</div>
+                        <div id="txt_dk" onclick="switchToSignup()" style="border-bottom: 2px solid gray;width: 180px;">Đăng ký</div>
+                    </div>
+                    <br>
+                    <br>
+        
+                    <div id="Dangnhap" class="form active">
+                        <form>
+                            <label for="email1" style="font-weight: bolder; margin-left: 45px;" class="User">Email</label>
+                            <br>
+                            <input id="email1" style="border-radius: 7px; height: 40px; width: 353px; margin-left: 45px;" type="email" placeholder="Email">
+                            <br><br>
+                            <label for="password1" style="font-weight: bolder; margin-left: 45px;" class="User">Mật khẩu</label>
+                            <br>
+                            <input id="password1" style="border-radius: 7px; height: 40px; width: 353px; margin-left: 45px;" type="password" placeholder="Mật khẩu">
+                            <br><br><br>
+                            <button type="button" onclick="Login()" style="background-color: red; color: white; border-radius: 7px; height: 40px; width: 359px; margin-left: 45px; font-weight: bolder; font-size: 20px;">Đăng nhập</button>
+                        </form>
+                        <p style="margin-left: 45px;">Chưa có tài khoản? <span onclick="switchToSignup()" style="color: blue; cursor: pointer;">Đăng ký</span></p>
+                    </div>
+                    <div id="Dangky" class="form">
+                        <form>
+                            <label for="email2" style="font-weight: bolder; margin-left: 45px;" class="User">Email</label>
+                            <br>
+                            <input id="email2" style="border-radius: 7px; height: 40px; width: 353px; margin-left: 45px;" type="email" placeholder="Email">
+                            <br><br>
+                            <label for="password2" style="font-weight: bolder; margin-left: 45px;" class="User">Mật khẩu</label>
+                            <br>
+                            <input id="password2" style="border-radius: 7px; height: 40px; width: 353px; margin-left: 45px;" type="password" placeholder="Mật khẩu">
+                            <br><br><br>
+                            <button type="button_login" onclick="CreateLogin()" style="background-color: red; color: white; border-radius: 7px; height: 40px; width: 359px; margin-left: 45px; font-weight: bolder; font-size: 20px;">Đăng ký</button>
+                        </form>
+                        <p style="margin-left: 45px;">Đã có tài khoản? <span onclick="switchToLogin()" style="color: blue; cursor: pointer;">Đăng nhập</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </header>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1>Trí - Đức - Chuyên tâm - Vươn tầm Thế giới</h1>
+            <p>Bệnh viện hàng đầu Việt Nam, tận tâm vì sức khỏe cộng đồng</p>
+        </div>
+    </section>
+    <div class="navbar">
+        <button onclick="showContent('patient-registration')">Đăng ký bệnh nhân mới</button>
+        <div class="menu-item" onclick="toggleSubmenu()">
+            <Button>Bệnh nhân</Button>
+            <div id="submenu" class="submenu">
+                <button onclick="showContent('patient-search')">Tra cứu bệnh nhân</button>
+                <button onclick="showContent('patient-records')">Hồ sơ bệnh án</button>
+            </div>
+        </div>
+        <button onclick="showContent('medical-history')">Lịch sử khám bệnh</button>
+        <button onclick="showContent('patient-list')">Danh sách bệnh nhân</button>
+    </div>    
+    <div class="container">
+        <div id="patient-registration" class="content-section" style="display: none;">
+            <h1>Đăng Ký Bệnh Nhân Mới</h1>
+            <input id="patient-name" placeholder="Họ và tên">
+            <input id="patient-phone" placeholder="Số điện thoại">
+            <input id="patient-age" placeholder="Tuổi">
+            <input id="patient-cccd" placeholder="CCCD">
+            <select id="patient-gender">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+            <input id="patient-history" placeholder="Tiền sử bệnh">
+            <br><button onclick="confirmPatientRegistration()">Xác nhận</button>
+            <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
+        </div>
+        <div id="patient-list" class="content-section" style="display: none;">
+            <h1>Danh Sách Bệnh Nhân</h1>
+            <table border="1" id="patient-table" style="width:100%; border-collapse: collapse; text-align: center;">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã Bệnh Nhân</th>
+            <th>Họ Và Tên</th>
+            <th>Số Điện Thoại</th>
+            <th>Giới Tính</th>
+            <th>Tuổi</th>
+            <th>CCCD</th>
+            <th>Tiền Sử Bệnh</th>
+        </tr>
+    </thead>
+    <tbody id="patient-list-content">
+    </tbody>
+</table>
+        </div>
+        <div id="patient-search" class="content-section" style="display: none;">
+            <h1>Tra Cứu Bệnh Nhân</h1>
+            <input id="search-name" placeholder="Nhập tên bệnh nhân">
+<input id="search-id" placeholder="Nhập mã bệnh nhân">
+<input id="search-cccd" placeholder="Nhập CCCD">
+<br>
+<br><button onclick="searchPatient()">Tìm kiếm</button>
+<button onclick ="cancelsearchPatient()">Hủy tìm kiếm </button>
+<br>
+<table border="1" id="search-result-table" style="width:100%; border-collapse: collapse; text-align: center;">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã Bệnh Nhân</th>
+            <th>Họ Và Tên</th>
+            <th>Số Điện Thoại</th>
+            <th>Giới Tính</th>
+            <th>Tuổi</th>
+            <th>CCCD</th>
+            <th>Tiền Sử Bệnh</th>
+        </tr>
+    </thead>
+    <tbody id="search-result-content"></tbody>
+</table>
+        </div>
+        
+        <div id="patient-records" class="content-section" style="display: none;">
+            <h2>Hồ sơ bệnh án</h2>
+
+<form id="hoSoForm">
+    Ngày khám: <input type="date" id="ngaykham">
+    Tên bệnh nhân: <input type="text" id="tenBenhNhan">
+    Tuổi: <input type="number" id="tuoi">
+    Mã bệnh nhân: <input type="text" id="maBenhNhan">
+    Chẩn đoán: <input type="text" id="chanDoan"><br>
+    
+    Xét nghiệm: 
+    <input type="checkbox" name="xetNghiem" value="Phân tích huyết học "> Phân tích huyết học
+    <input type="checkbox" name="xetNghiem" value="Nội tiết-hormone"> Nội tiết-hormone 
+    <input type="checkbox" name="xetNghiem" value="Kí sinh trùng ">Kí sinh trùng
+    <input type="checkbox" name="xetNghiem" value="Vitamin  ">Vitamin 
+    <input type="checkbox" name="xetNghiem " value ="Tổng phân tich nước tiểu"> Tổng phân tích nước tiểu 
+    <input type="checkbox" name="xetNghiem" value="Dị ứng"> Dị ứng <br>
+    Nội soi: 
+    <input type="checkbox" name="noiSoi" value="Dạ dày"> Dạ dày
+    <input type="checkbox" name="noiSoi" value="Đại tràng "> Đại tràng 
+    <input type="checkbox" name="noiSoi" value="Tai-Mũi-Họng "> Tai-Mũi-Họng 
+    <input type="checkbox" name="noiSoi" value="Phế quản "> Phế quản 
+    <input type="checkbox" name="noiSoi" value="Tiết niệu- Sinh dục "> Tiết niệu-Sinh dục 
+    <input type="checkbox" name="noiSoi" value="Ổ bụng "> Ổ bụng 
+    <input type="checkbox" name="noiSoi" value="Tim mạch "> Tim mạch 
+    <input type="checkbox" name="noiSoi" value="Thần kinh "> Thần kinh <br>
+    Kết quả xét nghiệm: <input type="text" id="ketQuaXetNghiem">
+    Kết quả nội soi: <input type="text" id="ketQuaNoiSoi"> 
+    Kết luận bác sĩ: <input type="text" id="ketLuan">
+    Chỉ định điều trị: <input type="text" id="chiDinh"><br>
+    <br> <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button>
+    <button type="button" onclick ="huyHoso()">Hủy </button><br>
+</form>
+
+<br> <table border="1">
+    <thead>
+        <tr>
+            <th>Ngày khám </th>
+            <th>Tên bệnh nhân</th> <th>Tuổi</th> <th>Mã bệnh nhân</th>
+            <th>Chẩn đoán</th>
+            <th>Xét nghiệm</th>
+            <th>Kết quả xét nghiệm</th>
+            <th>Nội soi </th>
+            <th>Kết quả nội soi</th>
+            <th>Kết luận bác sĩ</th>
+            <th>Chỉ định điều trị</th>
+        </tr>
+    </thead>
+    <tbody id="danhSachHoSo"></tbody>
+</table><br>
+        </div>
+        <div id="medical-history" class="content-section" style="display: none;">
+            <h1>Lịch Sử Khám Bệnh</h1>
+            <input id="history-patient-id" placeholder="Mã bệnh nhân">
+            <input id="history-date" type="date">
+            <input id="history-diagnosis" placeholder="Chẩn đoán">
+            <input id="history-treatment" placeholder="Điều trị"><br>
+            <button onclick="addPatientHistory()">Thêm</button>
+           <br> <h1>Danh sách </h1>
+            <table border="1" id="history-table" style="width:100%; border-collapse: collapse; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Bệnh Nhân</th>
+                        <th>Ngày Khám</th>
+                        <th>Chẩn Đoán</th>
+                        <th>Điều Trị</th>
+                    </tr>
+                </thead>
+                <tbody id="history-list">
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <span>Tổng đài <strong>1900.888.866</strong></span>
+        </div>
+        <div class="footer-main">
+            <div class="footer-left">
+                <p><strong>Tổng đài:</strong> 190.000.999</p>
+                <p><strong>Hotline:</strong> 0888888888</p>
+                <p><strong>Lịch làm việc:</strong></p>
+                <ul>
+                    <li>Khoa Khám bệnh theo yêu cầu:</li>
+                    <li>Thứ 2 - Thứ 6: 06:00 - 20:00</li>
+                    <li>Thứ 7 - Chủ nhật: 06:30 - 16:30</li>
+                    <li>Khoa Khám bệnh: Thứ 2 - Thứ 6</li>
+                    <li>Sáng: 07:00 - 12:00</li>
+                    <li>Chiều: 13:30 - 16:30</li>
+                </ul>
+            </div>
+            <div class="footer-right">
+                <button>Gọi tổng đài →</button>
+                <button>Đặt lịch khám →</button>
+                <button>Hỏi đáp cùng chuyên gia →</button>
+                <button>Tra cứu kết quả xét nghiệm →</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div 
+                class="social-icons">
+            </div>
+        </div>
+    </footer>
+    <script src="js/navbar.js" defer></script>
+    <script src="js/patient.js" defer></script>
+</body>
+</html>
