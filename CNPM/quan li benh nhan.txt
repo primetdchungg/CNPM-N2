@@ -117,7 +117,6 @@ th, td {
 <body>
     <div class="navbar">
         <h2>Quản Lý Bệnh Nhân</h2>
-        <button onclick="showContent('patient-registration')">Đăng ký bệnh nhân mới</button>
         <div class="menu-item" onclick="toggleSubmenu()">
             <Button>Bệnh nhân</Button>
             <div id="submenu" class="submenu">
@@ -129,8 +128,8 @@ th, td {
         <button onclick="showContent('patient-list')">Danh sách bệnh nhân</button>
     </div>    
     <div class="container">
-        <div id="patient-registration" class="content-section" style="display: none;">
-            <h1>Đăng Ký Bệnh Nhân Mới</h1>
+        <div id="patient-list" class="content-section" style="display: none;">
+            <h2>Thêm bệnh nhân </h2>
             <input id="patient-name" placeholder="Họ và tên">
             <input id="patient-phone" placeholder="Số điện thoại">
             <input id="patient-age" placeholder="Tuổi">
@@ -140,10 +139,10 @@ th, td {
                 <option value="Nữ">Nữ</option>
             </select>
             <input id="patient-history" placeholder="Tiền sử bệnh">
-            <br><button onclick="confirmPatientRegistration()">Xác nhận</button>
+            <br>
+            <br><button onclick="confirmPatientRegistration()">Xác nhận </button>
             <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
-        </div>
-        <div id="patient-list" class="content-section" style="display: none;">
+        <br>
             <h1>Danh Sách Bệnh Nhân</h1>
             <table border="1" id="patient-table" style="width:100%; border-collapse: collapse; text-align: center;">
     <thead>
