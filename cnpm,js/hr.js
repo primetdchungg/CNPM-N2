@@ -44,6 +44,7 @@ function addEmployee() {
     // Ẩn form sau khi thêm
     document.getElementById("employeeForm").style.display = "none";
 }
+
 function toggleForm() {
     var form = document.getElementById("employeeForm");
     if (form.style.display === "none" || form.style.display === "") {
@@ -80,6 +81,23 @@ function addEmployee() {
         <div class="employee-position">Khoa: ${department}</div>
     `;
 
+    employeeDiv.innerHTML = `
+        <img src="${image}" alt="Ảnh nhân viên">
+        <div class="employee-name">${name}</div>
+        <div class="employee-position">${position}</div>
+        <div class="employee-position employee-cccd">CCCD: ${cccd}</div>
+        <div class="employee-position employee-department">Khoa: ${department}</div>
+        <button onclick="editEmployee(this)">Chỉnh sửa</button>
+`;
+    employeeDiv.innerHTML = `
+        <img src="${image}" alt="Ảnh nhân viên">
+        <div class="employee-name">${name}</div>
+        <div class="employee-position">${position}</div>
+        <div class="employee-department">${department}</div>
+        <div class="employee-cccd">CCCD: ${cccd}</div>
+        <button class="edit-button" onclick="editEmployee(this)">Chỉnh sửa</button>
+        <button class="delete-button" onclick="deleteEmployee(this)">Xóa</button>
+    `;
     employeeList.appendChild(employeeDiv);
 
     // Reset form
@@ -91,6 +109,23 @@ function addEmployee() {
 
     // Ẩn form sau khi thêm
     document.getElementById("employeeForm").style.display = "none";
+}
+
+function editEmployee(button) {
+    const employeeDiv = button.parentElement;
+    document.getElementById('name').value = employeeDiv.querySelector('.employee-name').innerText;
+    document.getElementById('position').value = employeeDiv.querySelector('.employee-position').innerText;
+    document.getElementById('department').value = employeeDiv.querySelector('.employee-department').innerText;
+    document.getElementById('cccd').value = employeeDiv.querySelector('.employee-cccd').innerText.replace('CCCD: ', '');
+    document.getElementById('image').value = employeeDiv.querySelector('img').src;
+    employeeDiv.remove();
+    toggleForm();
+}
+
+function deleteEmployee(button) {
+    if (confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
+        button.parentElement.remove();
+    }
 }
 
 function searchEmployee() {
