@@ -44,50 +44,6 @@
     background: #555;
 }
 
-/* Submenu */
-.menu-item {
-    position: relative;
-}
-.menu-item button {
-    background: #444;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin: 0 5px;
-    border-radius: 5px;
-}
-
-.menu-item button:hover {
-    background: #555;
-}
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #444;
-    width: 200px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    flex-direction: column;
-    z-index: 1000;
-}
-
-.submenu button {
-    width: 100%;
-    background: #555;
-    padding: 8px;
-    font-size: 14px;
-    text-align: left;
-    border: none;
-    cursor: pointer;
-}
-
-.submenu button:hover {
-    background: #666;
-}
-
 .container {
     flex: 1;
     padding: 20px;
@@ -117,20 +73,14 @@ th, td {
 <body>
     <div class="navbar">
         <h2>Quản Lý Bệnh Nhân</h2>
-        <button onclick="showContent('patient-registration')">Đăng ký bệnh nhân mới</button>
-        <div class="menu-item" onclick="toggleSubmenu()">
-            <Button>Bệnh nhân</Button>
-            <div id="submenu" class="submenu">
-                <button onclick="showContent('patient-search')">Tra cứu bệnh nhân</button>
-                <button onclick="showContent('patient-records')">Hồ sơ bệnh án</button>
-            </div>
-        </div>
+        <button onclick="showContent('patient-search')">Tra cứu bệnh nhân</button>
+        <button onclick="showContent('patient-records')">Hồ sơ bệnh án</button>
         <button onclick="showContent('medical-history')">Lịch sử khám bệnh</button>
         <button onclick="showContent('patient-list')">Danh sách bệnh nhân</button>
     </div>    
     <div class="container">
-        <div id="patient-registration" class="content-section" style="display: none;">
-            <h1>Đăng Ký Bệnh Nhân Mới</h1>
+        <div id="patient-list" class="content-section" style="display: none;">
+            <h2>Thêm bệnh nhân </h2>
             <input id="patient-name" placeholder="Họ và tên">
             <input id="patient-phone" placeholder="Số điện thoại">
             <input id="patient-age" placeholder="Tuổi">
@@ -140,10 +90,10 @@ th, td {
                 <option value="Nữ">Nữ</option>
             </select>
             <input id="patient-history" placeholder="Tiền sử bệnh">
-            <br><button onclick="confirmPatientRegistration()">Xác nhận</button>
+            <br>
+            <br><button onclick="confirmPatientRegistration()">Xác nhận </button>
             <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
-        </div>
-        <div id="patient-list" class="content-section" style="display: none;">
+        <br>
             <h1>Danh Sách Bệnh Nhân</h1>
             <table border="1" id="patient-table" style="width:100%; border-collapse: collapse; text-align: center;">
     <thead>
@@ -167,8 +117,11 @@ th, td {
             <input id="search-name" placeholder="Nhập tên bệnh nhân">
 <input id="search-id" placeholder="Nhập mã bệnh nhân">
 <input id="search-cccd" placeholder="Nhập CCCD">
+<br>
 <br><button onclick="searchPatient()">Tìm kiếm</button>
-
+<button onclick ="cancelsearchPatient()">Hủy tìm kiếm </button>
+<br>
+<br>
 <table border="1" id="search-result-table" style="width:100%; border-collapse: collapse; text-align: center;">
     <thead>
         <tr>
@@ -190,46 +143,61 @@ th, td {
             <h2>Hồ sơ bệnh án</h2>
 
 <form id="hoSoForm">
-    Tên bệnh nhân: <input type="text" id="tenBenhNhan"><br>
-    Tuổi: <input type="number" id="tuoi"><br>
-    Mã bệnh nhân: <input type="text" id="maBenhNhan"><br>
+    Ngày khám: <input type="date" id="ngaykham">
+    Tên bệnh nhân: <input type="text" id="tenBenhNhan">
+    Tuổi: <input type="number" id="tuoi">
+    Mã bệnh nhân: <input type="text" id="maBenhNhan">
     Chẩn đoán: <input type="text" id="chanDoan"><br>
     
     Xét nghiệm: 
-    <input type="checkbox" name="xetNghiem" value="Mắt"> Mắt
-    <input type="checkbox" name="xetNghiem" value="Tai"> Tai
-    <input type="checkbox" name="xetNghiem" value="Mũi"> Mũi<br>
-    
-    Kết quả xét nghiệm: <input type="text" id="ketQuaXetNghiem"><br>
-    Kết luận bác sĩ: <input type="text" id="ketLuan"><br>
-    
-    <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button>
+    <input type="checkbox" name="xetNghiem" value="Phân tích huyết học "> Phân tích huyết học
+    <input type="checkbox" name="xetNghiem" value="Nội tiết-hormone"> Nội tiết-hormone 
+    <input type="checkbox" name="xetNghiem" value="Kí sinh trùng ">Kí sinh trùng
+    <input type="checkbox" name="xetNghiem" value="Vitamin  ">Vitamin 
+    <input type="checkbox" name="xetNghiem " value ="Tổng phân tich nước tiểu"> Tổng phân tích nước tiểu 
+    <input type="checkbox" name="xetNghiem" value="Dị ứng"> Dị ứng <br>
+    Nội soi: 
+    <input type="checkbox" name="noiSoi" value="Dạ dày"> Dạ dày
+    <input type="checkbox" name="noiSoi" value="Đại tràng "> Đại tràng 
+    <input type="checkbox" name="noiSoi" value="Tai-Mũi-Họng "> Tai-Mũi-Họng 
+    <input type="checkbox" name="noiSoi" value="Phế quản "> Phế quản 
+    <input type="checkbox" name="noiSoi" value="Tiết niệu- Sinh dục "> Tiết niệu-Sinh dục 
+    <input type="checkbox" name="noiSoi" value="Ổ bụng "> Ổ bụng 
+    <input type="checkbox" name="noiSoi" value="Tim mạch "> Tim mạch 
+    <input type="checkbox" name="noiSoi" value="Thần kinh "> Thần kinh <br>
+    Kết quả xét nghiệm: <input type="text" id="ketQuaXetNghiem">
+    Kết quả nội soi: <input type="text" id="ketQuaNoiSoi"> 
+    Kết luận bác sĩ: <input type="text" id="ketLuan">
+    Chỉ định điều trị: <input type="text" id="chiDinh"><br>
+    <br> <button type="button" onclick="luuHoSo()">Lưu hồ sơ</button>
+    <button type="button" onclick ="huyHoso()">Hủy </button><br>
 </form>
 
-<table border="1">
+<br> <table border="1">
     <thead>
         <tr>
+            <th>Ngày khám </th>
             <th>Tên bệnh nhân</th> <th>Tuổi</th> <th>Mã bệnh nhân</th>
             <th>Chẩn đoán</th>
             <th>Xét nghiệm</th>
             <th>Kết quả xét nghiệm</th>
+            <th>Nội soi </th>
+            <th>Kết quả nội soi</th>
             <th>Kết luận bác sĩ</th>
+            <th>Chỉ định điều trị</th>
         </tr>
     </thead>
     <tbody id="danhSachHoSo"></tbody>
-</table>
-
-<button onclick="inBenhAn()">In bệnh án</button>
-
+</table><br>
         </div>
         <div id="medical-history" class="content-section" style="display: none;">
             <h1>Lịch Sử Khám Bệnh</h1>
             <input id="history-patient-id" placeholder="Mã bệnh nhân">
             <input id="history-date" type="date">
             <input id="history-diagnosis" placeholder="Chẩn đoán">
-            <input id="history-treatment" placeholder="Điều trị">
+            <input id="history-treatment" placeholder="Điều trị"><br>
             <button onclick="addPatientHistory()">Thêm</button>
-            <h1>Danh sách </h1>
+           <br> <h1>Danh sách </h1>
             <table border="1" id="history-table" style="width:100%; border-collapse: collapse; text-align: center;">
                 <thead>
                     <tr>
@@ -256,7 +224,7 @@ th, td {
 });
 
 document.querySelector(".menu-item").addEventListener("mouseout", function() {
-    document.getElementById("submenu").style.display = "none";
+    document.getElementById(" ").style.display = "none";
 });
 
 function showContent(section) {
@@ -270,37 +238,45 @@ function showContent(section) {
         let danhSachHoSo = [];
 
 function luuHoSo() {
+    let ngaykham =document.getElementById("ngaykham").value;
     let tenBenhNhan = document.getElementById("tenBenhNhan").value;
     let tuoi = document.getElementById("tuoi").value;
     let maBenhNhan = document.getElementById("maBenhNhan").value;
     let chanDoan = document.getElementById("chanDoan").value;
-    
-    // Lấy danh sách các xét nghiệm được chọn
     let xetNghiemElements = document.querySelectorAll('input[name="xetNghiem"]:checked');
     let xetNghiem = Array.from(xetNghiemElements).map(e => e.value).join(", ");
-    
+    let noiSoiElements = document.querySelectorAll('input[name="noiSoi"]:checked');
+    let noiSoi = Array.from(noiSoiElements).map(e => e.value).join(", ");
     let ketQuaXetNghiem = document.getElementById("ketQuaXetNghiem").value;
-    let ketLuan = document.getElementById("ketLuan").value;
-
-    // Thêm hồ sơ vào danh sách
+    let ketQuaNoiSoi = document.getElementById("ketQuaNoiSoi").value;
+    let ketLuan = document.getElementById("ketLuan").value;  
+    let chiDinh = document.getElementById("chiDinh").value; 
     danhSachHoSo.push({
+        ngaykham,
         tenBenhNhan,
         tuoi,
         maBenhNhan,
         chanDoan,
         xetNghiem,
         ketQuaXetNghiem,
-        ketLuan
+        noiSoi,
+        ketQuaNoiSoi,
+        ketLuan,
+        chiDinh 
     });
 alert('Thêm bệnh án thành công ');
     hienThiDanhSach();
+    document.getElementById("ngaykham").value="";
     document.getElementById("tenBenhNhan").value = "";
     document.getElementById("tuoi").value = "";
     document.getElementById("maBenhNhan").value = "";
     document.getElementById("chanDoan").value = "";
     document.querySelectorAll('input[name="xetNghiem"]').forEach(cb => cb.checked = false);
     document.getElementById("ketQuaXetNghiem").value = "";
+    document.querySelectorAll('input[name="noiSoi"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaNoiSoi").value = "";
     document.getElementById("ketLuan").value = "";
+    document.getElementById("chiDinh").value = "";
 }
 
 function hienThiDanhSach() {
@@ -308,13 +284,17 @@ function hienThiDanhSach() {
     tbody.innerHTML = "";
     danhSachHoSo.forEach((hs, index) => {
         let row = `<tr>
+            <td>${hs.ngaykham}</td>
             <td>${hs.tenBenhNhan}</td>
             <td>${hs.tuoi}</td>
             <td>${hs.maBenhNhan}</td>
             <td>${hs.chanDoan}</td>
             <td>${hs.xetNghiem}</td>
             <td>${hs.ketQuaXetNghiem}</td>
+            <td>${hs.noiSoi}</td>
+            <td>${hs.ketQuaNoiSoi}</td>
             <td>${hs.ketLuan}</td>
+            <td>${hs.chiDinh}</td> 
             <td><button onclick="inBenhAn(${index})">In</button></td>
         </tr>`;
         tbody.innerHTML += row;
@@ -327,13 +307,17 @@ function inBenhAn(index) {
 
     let content = `
         <h2>Hồ sơ bệnh án</h2>
+        <p><strong>Ngày khám:</strong> ${hs.ngaykham}</p>
         <p><strong>Tên bệnh nhân:</strong> ${hs.tenBenhNhan}</p>
         <p><strong>Tuổi:</strong> ${hs.tuoi}</p>
         <p><strong>Mã bệnh nhân:</strong> ${hs.maBenhNhan}</p>
         <p><strong>Chẩn đoán:</strong> ${hs.chanDoan}</p>
         <p><strong>Xét nghiệm:</strong> ${hs.xetNghiem}</p>
         <p><strong>Kết quả xét nghiệm:</strong> ${hs.ketQuaXetNghiem}</p>
+        <p><strong>Nội soi :</strong> ${hs.noiSoi}</p>
+        <p><strong>Kết quả nội soi :</strong> ${hs.ketQuaNoiSoi}</p>
         <p><strong>Kết luận bác sĩ:</strong> ${hs.ketLuan}</p>
+        <p><strong>Chỉ định diều trị:</strong> ${hs.chiDinh}</p> 
     `;
 
     let newWindow = window.open("", "", "width=800,height=600");
@@ -405,8 +389,6 @@ function inBenhAn(index) {
         tableBody.appendChild(row);
     });
 }
-
-
         function addPatientHistory() {
             let patientID = document.getElementById('history-patient-id').value.trim();
             let date = document.getElementById('history-date').value;
@@ -417,7 +399,6 @@ function inBenhAn(index) {
                 alert('Vui lòng nhập đầy đủ thông tin!');
                 return;
             }
-            
             medicalHistory.push({ id: patientID, date, diagnosis, treatment });
             alert('Thêm thông tin thành công');
             updateHistoryList();
@@ -448,16 +429,36 @@ function inBenhAn(index) {
         function cancelPatientRegistration() {
     let confirmCancel = confirm("Bạn có chắc chắn muốn hủy đăng ký không? Thông tin nhập sẽ bị xóa.");
     if (confirmCancel) {
-        // Xóa dữ liệu trong form
         document.getElementById('patient-name').value = '';
         document.getElementById('patient-phone').value = '';
         document.getElementById('patient-gender').value = 'Nam';
         document.getElementById('patient-age').value = '';
         document.getElementById('patient-cccd').value = '';
         document.getElementById('patient-history').value = '';
-
-        // Quay lại màn hình chính hoặc danh sách bệnh nhân
         showContent('default'); 
+    }
+}
+function cancelsearchPatient() {
+    let confirmCancel = confirm("Bạn có chắc chắn muốn hủy tìm kiếm không?");
+    if (confirmCancel) {
+        document.getElementById('search-name').value = '';
+        document.getElementById('search-id').value = '';
+        document.getElementById('search-cccd').value = '';
+    }
+}
+function huyHoso() {
+    let confirmCancel = confirm("Bạn có chắc chắn muốn hủy hồ sơ này không? Thông tin nhập sẽ bị xóa.");
+    if (confirmCancel) {
+        document.getElementById("tenBenhNhan").value = "";
+    document.getElementById("tuoi").value = "";
+    document.getElementById("maBenhNhan").value = "";
+    document.getElementById("chanDoan").value = "";
+    document.querySelectorAll('input[name="xetNghiem"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaXetNghiem").value = "";
+    document.querySelectorAll('input[name="noiSoi"]').forEach(cb => cb.checked = false);
+    document.getElementById("ketQuaNoiSoi").value = "";
+    document.getElementById("ketLuan").value = "";
+    document.getElementById("chiDinh").value = "";
     }
 }
 function deleteHistory(index) {
