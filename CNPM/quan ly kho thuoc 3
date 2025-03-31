@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Kho Thuốc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+            color: #343a40;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .modal button {
+            margin-top: 10px;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quản lý Kho Thuốc</h2>
+    <div class="form-container">
+        <input type="text" id="search" placeholder="Tìm kiếm thuốc..." onkeyup="searchMedicine()">
+    </div>
+    <div class="form-container">
+        <form id="medicine-form" onsubmit="addMedicine(event)">
+            <input type="text" id="name" placeholder="Tên thuốc" required>
+            <input type="number" id="quantity" placeholder="Số lượng" required>
+            <input type="text" id="ingredient" placeholder="Thành phần" required>
+            <input type="text" id="use" placeholder="Công dụng" required>
+            <input type="text" id="dosage" placeholder="Cách dùng" required>
+            <input type="text" id="sideEffects" placeholder="Tác dụng phụ" required>
+            <button type="submit">Thêm thuốc</button>
+        </form>
+    </div>
+   
+    <table>
+        <thead>
+            <tr>
+                <th>Tên thuốc</th>
+                <th>Số lượng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody id="medicine-list">
+        </tbody>
+    </table>
+   
+    <div id="medicine-modal" class="modal">
+        <h3 id="modal-title"></h3>
+        <p><strong>Thành phần:</strong> <span id="modal-ingredient"></span></p>
+        <p><strong>Công dụng:</strong> <span id="modal-use"></span></p>
+        <p><strong>Cách dùng:</strong> <span id="modal-dosage"></span></p>
+        <p><strong>Tác dụng phụ:</strong> <span id="modal-side-effects"></span></p>
+        <button onclick="closeModal()">Đóng</button>
+    </div>
+   
+    <script>
+        let medicines = [
+            {name: "Paracetamol", quantity: 100, ingredient: "Acetaminophen", use: "Giảm đau, hạ sốt", dosage: "Uống 1 viên mỗi 6 giờ", sideEffects: "Buồn nôn, phát ban"},
+            {name: "Ibuprofen", quantity: 50, ingredient: "Ibuprofen", use: "Giảm đau, kháng viêm", dosage: "Uống 1 viên mỗi 8 giờ", sideEffects: "Đau dạ dày, buồn nôn"},
+            {name: "Amoxicillin", quantity: 75, ingredient: "Amoxicillin", use: "Kháng sinh, trị nhiễm khuẩn", dosage: "Uống 1 viên mỗi 12 giờ", sideEffects: "Dị ứng, tiêu chảy"}
+        ];
+
+        function displayMedicines() {
+            let table = document.getElementById("medicine-list");
+            table.innerHTML = "";
+            medicines.forEach(med => {
+                let row = `<tr>
+                    <td onclick="showDetails('${med.name}', '${med.ingredient}', '${med.use}', '${med.dosage}', '${med.sideEffects}')">${med.name}</td>
+                    <td>${med.quantity}</td>
+                    <td><button class="delete-btn" onclick="removeMedicine('${med.name}')">Xóa</button></td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        function addMedicine(event) {
+            event.preventDefault();
+            let newMed = {
+                name: document.getElementById("name").value,
+                quantity: document.getElementById("quantity").value,
+                ingredient: document.getElementById("ingredient").value,
+                use: document.getElementById("use").value,
+                dosage: document.getElementById("dosage").value,
+                sideEffects: document.getElementById("sideEffects").value
+            };
+            medicines.push(newMed);
+            displayMedicines();
+            document.getElementById("medicine-form").reset();
+        }
+
+        function removeMedicine(name) {
+            medicines = medicines.filter(med => med.name !== name);
+            displayMedicines();
+        }
+
+        function searchMedicine() {
+            let filter = document.getElementById("search").value.toLowerCase();
+            let filtered = medicines.filter(med => med.name.toLowerCase().includes(filter));
+            document.getElementById("medicine-list").innerHTML = "";
+            filtered.forEach(med => {
+                let row = `<tr>
+                    <td onclick="showDetails('${med.name}', '${med.ingredient}', '${med.use}', '${med.dosage}', '${med.sideEffects}')">${med.name}</td>
+                    <td>${med.quantity}</td>
+                    <td><button class="delete-btn" onclick="removeMedicine('${med.name}')">Xóa</button></td>
+                </tr>`;
+                document.getElementById("medicine-list").innerHTML += row;
+            });
+        }
+       
+        function showDetails(name, ingredient, use, dosage, sideEffects) {
+            document.getElementById("modal-title").innerText = name;
+            document.getElementById("modal-ingredient").innerText = ingredient;
+            document.getElementById("modal-use").innerText = use;
+            document.getElementById("modal-dosage").innerText = dosage;
+            document.getElementById("modal-side-effects").innerText = sideEffects;
+            document.getElementById("medicine-modal").style.display = "block";
+        }
+        function closeModal() {
+            document.getElementById("medicine-modal").style.display = "none";
+        }
+        displayMedicines();
+    </script>
+</body>
+</html>
