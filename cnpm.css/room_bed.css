@@ -1,35 +1,71 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* 3 cột cân đối */
   gap: 20px;
   padding: 20px;
-  background-color: #f3f3f3;
-  
-  /* Căn giữa theo cả chiều ngang và chiều dọc */
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  
-  /* Nếu cần căn giữa toàn bộ grid trong trang */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 800px; /* Giới hạn chiều rộng */
+  margin: auto; /* Căn giữa toàn bộ lưới */
 }
 
-  .sub-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 100px;
-    margin-top: 20px;
+.grid div {
+  background-color: white; /* Màu nền ô */
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px; /* Bo góc */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  transition: transform 0.2s, box-shadow 0.2s; /* Hiệu ứng hover */
+  border: 1px solid #ddd; /* Viền nhẹ */
+}
 
-    /* Căn giữa theo cả chiều ngang và chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    
-    /* Nếu cần căn giữa toàn bộ grid trong trang */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.grid div:hover {
+  transform: translateY(-5px); /* Nâng lên khi hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Tăng bóng */
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+
+.sub-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 2 cột cân đối */
+  gap: 40px; /* Khoảng cách hợp lý hơn */
+  margin-top: 20px;
+  
+  /* Căn giữa theo cả chiều ngang và dọc */
+  justify-content: center;
+  align-items: center;
+
+  /* Giới hạn chiều rộng để không bị kéo dài quá mức */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sub-grid div {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #ddd;
+}
+
+.sub-grid div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
   .box {
     width: 200px;
     height: 100px;
