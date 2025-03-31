@@ -1,21 +1,27 @@
         /* Thanh menu bên trái */
+        
         .sidebar {
-            width: 250px; /* Độ rộng sidebar */
-            background-color: #5f89b9; /* Màu xanh dương */
-            height: 100vh; /* Full chiều cao */
+            width: 250px;
+            /* Độ rộng sidebar */
+            background-color: #5f89b9;
+            /* Màu xanh dương */
+            height: 100vh;
+            /* Full chiều cao */
             position: fixed;
             top: 0;
             left: 0;
         }
-
         /* Nội dung chính */
+        
         .content {
             flex: 1;
             padding: 20px;
-            margin-left: 270px; /* Đẩy nội dung sang phải */
+            margin-left: 270px;
+            margin-right: 270px;
+            /* Đẩy nội dung sang phải */
         }
-
         /* Ô tìm kiếm nhân sự */
+        
         .search-box {
             width: 100%;
             max-width: 400px;
@@ -26,9 +32,10 @@
             display: block;
             margin-bottom: 10px;
         }
-
+        
         .add-button {
-            background-color: #27ae60; /* Màu xanh lá */
+            background-color: #27ae60;
+            /* Màu xanh lá */
             color: white;
             padding: 10px 15px;
             font-size: 16px;
@@ -39,27 +46,30 @@
             display: block;
             margin-bottom: 10px;
         }
-
         /* Hiệu ứng khi di chuột vào nút "Thêm nhân sự" */
+        
         .add-button:hover {
-            background-color: #229954; /* Xanh lá đậm hơn */
+            background-color: #229954;
+            /* Xanh lá đậm hơn */
         }
-
         /* Tiêu đề "Danh sách nhân viên" */
+        
         .title {
             background-color: #d34a3a;
             color: white;
             padding: 10px 15px;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 5px; /* Bo tròn góc */
+            border-radius: 5px;
+            /* Bo tròn góc */
             display: inline-block;
             margin-bottom: 20px;
         }
-
         /* Form thêm nhân sự */
+        
         .employee-form {
-            display: none; /* Ẩn mặc định */
+            display: none;
+            /* Ẩn mặc định */
             margin-bottom: 20px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -67,11 +77,11 @@
             background-color: #f9f9f9;
             max-width: 400px;
         }
-
+        
         .employee-form label {
             font-weight: bold;
         }
-
+        
         .employee-form input {
             width: 100%;
             padding: 8px;
@@ -80,7 +90,7 @@
             border-radius: 5px;
             font-size: 14px;
         }
-
+        
         .employee-form button {
             background-color: #27ae60;
             color: white;
@@ -89,23 +99,26 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         /* Danh sách nhân viên */
+        
         .employee-list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 cột */
-            gap: 20px; /* Khoảng cách giữa các ô */
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 cột */
+            gap: 40px;
+            /* Khoảng cách giữa các ô */
         }
-
         /* Ô nhân viên */
+        
         .employee {
-            background-color: #f0f0f0; /* Màu xám nhạt */
+            background-color: #f0f0f0;
+            /* Màu xám nhạt */
             padding: 10px;
             text-align: center;
             border-radius: 5px;
         }
-
         /* Ảnh nhân viên (Tỷ lệ 3:4) */
+        
         .employee img {
             width: 120px;
             height: 160px;
@@ -113,15 +126,59 @@
             object-fit: cover;
             margin-bottom: 10px;
         }
-
         /* Tên nhân viên */
+        
         .employee-name {
             font-weight: bold;
             font-size: 16px;
         }
-
         /* Chức vụ nhân viên */
+        
         .employee-position {
             font-size: 14px;
             color: gray;
+        }
+        
+        .edit-button,
+        .delete-button {
+            padding: 8px 15px;
+            /* Khoảng cách bên trong nút */
+            margin-left: 5px;
+            /* Khoảng cách giữa các nút */
+            border: none;
+            /* Loại bỏ đường viền mặc định */
+            border-radius: 5px;
+            /* Bo tròn góc */
+            cursor: pointer;
+            /* Thay đổi con trỏ chuột khi di qua */
+            font-size: 14px;
+            /* Kích thước chữ */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu mượt mà */
+        }
+        /* Kiểu dáng riêng cho nút Chỉnh sửa */
+        
+        .edit-button {
+            background-color: #27ae60;
+            /* Màu nền xanh dương */
+            color: white;
+            /* Màu chữ trắng */
+        }
+        
+        .edit-button:hover {
+            background-color: #3aae5f;
+            /* Màu nền đậm hơn khi di chuột qua */
+        }
+        /* Kiểu dáng riêng cho nút Xóa */
+        
+        .delete-button {
+            background-color: #dc3545;
+            /* Màu nền đỏ */
+            color: white;
+            /* Màu chữ trắng */
+        }
+        
+        .delete-button:hover {
+            background-color: #c82333;
+            /* Màu nền đậm hơn khi di chuột qua */
         }
