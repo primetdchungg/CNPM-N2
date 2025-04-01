@@ -80,37 +80,42 @@ th, td {
     </div>    
     <div class="container">
         <div id="patient-list" class="content-section" style="display: none;">
-            <h2>Thêm bệnh nhân </h2>
-            <input id="patient-name" placeholder="Họ và tên">
-            <input id="patient-phone" placeholder="Số điện thoại">
-            <input id="patient-age" placeholder="Tuổi">
-            <input id="patient-cccd" placeholder="CCCD">
-            <select id="patient-gender">
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-            </select>
-            <input id="patient-history" placeholder="Tiền sử bệnh">
+            <h2>Thêm bệnh nhân</h2>
+            <button onclick="togglePatientForm()">Thêm bệnh nhân</button>
             <br>
-            <br><button onclick="confirmPatientRegistration()">Xác nhận </button>
-            <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
-        <br>
+            <br>
+            <div id="patient-form" style="display: none;">
+                <input id="patient-name" placeholder="Họ và tên">
+                <input id="patient-phone" placeholder="Số điện thoại">
+                <input id="patient-age" placeholder="Tuổi">
+                <input id="patient-cccd" placeholder="CCCD">
+                <select id="patient-gender">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+                <input id="patient-history" placeholder="Tiền sử bệnh">
+                <br>
+                <br>
+                <button onclick="confirmPatientRegistration()">Xác nhận</button>
+                <button onclick="cancelPatientRegistration()">Hủy Đăng Ký</button>
+            </div>
             <h1>Danh Sách Bệnh Nhân</h1>
             <table border="1" id="patient-table" style="width:100%; border-collapse: collapse; text-align: center;">
-    <thead>
-        <tr>
-            <th>STT</th>
-            <th>Mã Bệnh Nhân</th>
-            <th>Họ Và Tên</th>
-            <th>Số Điện Thoại</th>
-            <th>Giới Tính</th>
-            <th>Tuổi</th>
-            <th>CCCD</th>
-            <th>Tiền Sử Bệnh</th>
-        </tr>
-    </thead>
-    <tbody id="patient-list-content">
-    </tbody>
-</table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Bệnh Nhân</th>
+                        <th>Họ Và Tên</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Giới Tính</th>
+                        <th>Tuổi</th>
+                        <th>CCCD</th>
+                        <th>Tiền Sử Bệnh</th>
+                    </tr>
+                </thead>
+                <tbody id="patient-list-content">
+                </tbody>
+            </table>
         </div>
         <div id="patient-search" class="content-section" style="display: none;">
             <h1>Tra Cứu Bệnh Nhân</h1>
@@ -501,7 +506,14 @@ function searchPatient() {
         alert("Không tìm thấy bệnh nhân nào.");
     }
 }
-
+function togglePatientForm() {
+        var form = document.getElementById("patient-form");
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block"; // Hiện form nhập
+        } else {
+            form.style.display = "none"; // Ẩn form nhập
+        }
+    }
     </script>
 </body>
 </html>
