@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+.main-container {
+    min-height: 150vh; /* Tạo chiều cao tối thiểu lớn hơn màn hình */
+}
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #ddd;
+}
+
+.logo {
+    height: 50px;
+}
+
+.slogan {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f4a100;
+    font-style: italic;
+}
+
+/* Header */
+.contact-info {
+    background: #006837;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(to right, #007a33, #005f27);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Dịch vụ trực tuyến */
+.service-box {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #ffffff;
+    margin: 15px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    background: #d9f0e3;
+}
+
+h2 {
+    color: #007a33;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Footer */
+.footer-top {
+    background-color: #FFC72C;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.footer-main {
+    background-color: #007B3E;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.footer-left img {
+    width: 100px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.footer-left p, .footer-left ul {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.footer-left ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-left ul li {
+    margin-left: 10px;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-right button {
+    background-color: white;
+    color: #007B3E;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-bottom {
+    background-color: #007B3E;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border-top: 1px solid white;
+}
+
+.footer-bottom .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
